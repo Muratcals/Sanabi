@@ -24,7 +24,6 @@ class LastOrderViewModel : ViewModel() {
                     customerOrderList.value=response.body()
                 }
             }
-
             override fun onFailure(call: Call<OrderProductModel>, t: Throwable) {
                 println(t.localizedMessage)
             }
