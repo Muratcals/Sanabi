@@ -8,6 +8,7 @@ import com.example.sanabi.Room.DatabaseRoom
 import com.example.sanabi.Room.RoomServices
 import com.example.sanabi.model.BasketProductModelData
 import com.example.sanabi.model.GetAddressModel
+import com.example.sanabi.model.PaymentTypeModel
 import kotlinx.coroutines.flow.Flow
 import retrofit2.Call
 import retrofit2.Callback
@@ -18,6 +19,7 @@ import java.text.DecimalFormatSymbols
 
 class OrderPaymentViewModel : ViewModel() {
     val paymentProducts = MutableLiveData<List<BasketProductModelData>>()
+    val paymentType =MutableLiveData<PaymentTypeModel>()
     val addressInformation=MutableLiveData<GetAddressModel>()
     val repository=Repository()
     val progressBar = MutableLiveData<Boolean>()
@@ -39,6 +41,25 @@ class OrderPaymentViewModel : ViewModel() {
         return df.format(double)
     }
 
+    fun getPaymentType(){
+        val payment =repository.getAllPaymentType()
+        payment.enqueue(object:Callback<PaymentTypeModel>{
+            override fun onResponse(
+                call: Call<PaymentTypeModel>,
+                response: Response<PaymentTypeModel>
+            ) {
+                if (response.body()!=null){
+                    paymentType.value=response.body()
+                }
+
+            }
+
+            override fun onFailure(call: Call<PaymentTypeModel>, t: Throwable) {
+                println(t.localizedMessage)
+            }
+
+        })
+    }
     fun getAddress(id:Int){
         val result =repository.getAddressInformation(id)
         result.enqueue(object:Callback<GetAddressModel>{

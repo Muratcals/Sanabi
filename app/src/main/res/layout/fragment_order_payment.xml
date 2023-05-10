@@ -45,7 +45,6 @@
                         android:text="Teslimat Adresi"
                         android:textColor="@color/black"
                         android:textSize="@dimen/_14ssp"
-                        android:textStyle="bold"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/paymentVisitIcon"
                         app:layout_constraintTop_toTopOf="parent"
@@ -70,7 +69,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     tools:ignore="MissingConstraints"
-                    android:layout_marginHorizontal="@dimen/_10sdp"
+                    android:layout_marginHorizontal="@dimen/_15sdp"
                     android:layout_marginTop="@dimen/_5sdp">
                     <TextView
                         android:layout_width="wrap_content"
@@ -105,11 +104,12 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/addressDetailsUpdate"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:layout_marginTop="@dimen/_5sdp"
-                    android:layout_marginStart="@dimen/_10sdp">
+                    android:background="@drawable/layout_too_bottom_shape"
+                    android:layout_marginVertical="@dimen/_10sdp">
 
                     <ImageView
                         android:layout_width="@dimen/_20sdp"
@@ -123,13 +123,143 @@
                         tools:ignore="MissingConstraints" />
                     <TextView
                         android:id="@+id/addPaymentAddressDetails"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
                         android:layout_marginStart="@dimen/_10sdp"
                         android:fontFamily="sans-serif-black"
                         android:text="Teslimat Adresi"
                         android:textColor="@color/pink"
-                        android:textSize="@dimen/_14ssp"
+                        android:textSize="@dimen/_12ssp"
+                        android:textStyle="bold"
+                        android:layout_gravity="center_vertical"/>
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="@dimen/_10sdp">
+
+                    <ImageView
+                        android:id="@+id/imageView2"
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="@dimen/_20sdp"
+                        android:src="@drawable/purse_pink_icon"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:layout_margin="@dimen/_10sdp"
+                        tools:ignore="MissingConstraints" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:fontFamily="sans-serif-black"
+                        android:text="Ödeme yöntemi"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_15ssp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/imageView2"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:ignore="MissingConstraints" />
+
+                    <ImageView
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="@dimen/_20sdp"
+                        android:src="@drawable/edit_icon"
+                        android:id="@+id/paymentMethodEditButton"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:layout_margin="@dimen/_10sdp"
+                        tools:ignore="MissingConstraints" />
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/paymentMethodLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    tools:ignore="MissingConstraints"
+                    android:layout_marginHorizontal="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_5sdp">
+
+                    <ImageView
+                        android:id="@+id/paymentMethodIcon"
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="@dimen/_20sdp"
+                        android:src="@drawable/purse_black_icon"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/paymentMethodText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/arial"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:text="Nakit"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_13ssp"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/paymentMethodIcon"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/paymentMethodSumPrice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/arial"
+                        android:text="150,65 TL"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_13ssp"
+                        android:textStyle="bold"
+                        android:layout_marginEnd="@dimen/_5sdp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <LinearLayout
+                    android:id="@+id/methodUpdateLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:background="@drawable/layout_too_bottom_shape"
+                    android:layout_marginVertical="@dimen/_10sdp">
+
+                    <ImageView
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="@dimen/_20sdp"
+                        android:src="@drawable/add_icon"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:layout_margin="@dimen/_5sdp"
+                        tools:ignore="MissingConstraints" />
+                    <TextView
+                        android:id="@+id/addPaymentMethod"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:fontFamily="sans-serif-black"
+                        android:text="Ödeme Yöntemi Seç"
+                        android:textColor="@color/pink"
+                        android:textSize="@dimen/_12ssp"
                         android:textStyle="bold"
                         android:layout_gravity="center_vertical"/>
 
@@ -260,7 +390,6 @@
 
             </LinearLayout>
 
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -300,8 +429,6 @@
                     android:textStyle="bold" />
 
             </RelativeLayout>
-
-
 
             <Button
                 android:id="@+id/orderNextButton"

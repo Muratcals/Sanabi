@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.sanabi.Adapter.LastOrderProductsRecycler
 import com.example.sanabi.Adapter.LastOrdersRecycler
+import com.example.sanabi.LastOrderModel.OrderProductModel
 import com.example.sanabi.R
 import com.example.sanabi.databinding.FragmentLastOrderBinding
 import com.example.sanabi.databinding.LastOrderViewBinding
@@ -28,16 +29,20 @@ class LastOrderFragment : Fragment() {
         return binding.root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         viewModel = ViewModelProvider(this).get(LastOrderViewModel::class.java)
         viewModel.getCustomerOrders()
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.customerOrderList.observe(viewLifecycleOwner){
-            adapter= LastOrdersRecycler(it)
+            adapter= LastOrdersRecycler(it,viewModel,requireActivity())
             binding.lastOrderRecycler.adapter=adapter
             binding.lastOrderRecycler.layoutManager=LinearLayoutManager(requireContext())
         }

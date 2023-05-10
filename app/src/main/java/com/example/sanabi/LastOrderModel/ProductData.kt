@@ -2,7 +2,7 @@ package com.example.sanabi.LastOrderModel
 
 data class ProductData(
     val categoryId: Int,
-    val createdDate: Any,
+    val createdDate: String?,
     val description: String,
     val id: Int,
     val image: String,

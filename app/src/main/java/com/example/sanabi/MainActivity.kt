@@ -22,6 +22,7 @@ import androidx.core.app.DialogCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.sanabi.API.Repository
 import com.example.sanabi.Adapter.MainAddressControlRecycler
+import com.example.sanabi.Room.DatabaseRoom
 import com.example.sanabi.Util.util
 import com.example.sanabi.databinding.ActivityMainBinding
 import com.example.sanabi.databinding.MenuHeaderBinding
@@ -32,6 +33,9 @@ import com.example.sanabi.model.GetAddressModel
 import com.example.sanabi.model.GetIdModel
 import com.example.sanabi.model.GetUserInformation
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -100,6 +104,8 @@ class MainActivity : AppCompatActivity() {
 
     fun getFindById() {
         binding.mainLayout.alpha=0.3f
+        binding.market.isEnabled=false
+        supportActionBar!!.setDisplayHomeAsUpEnabled(false)
         binding.mainProgress.visibility=View.VISIBLE
         repository.getIdUser(util.auth.currentUser!!.email.toString())
             .enqueue(object : Callback<GetIdModel> {
@@ -133,6 +139,9 @@ class MainActivity : AppCompatActivity() {
 
     fun selectedAdressDialog() {
         binding.mainLayout.alpha=1f
+        binding.market.isEnabled=true
+        binding.drawerLayout.isEnabled=true
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         binding.mainProgress.visibility=View.INVISIBLE
         val dialog = BottomSheetDialog(this)
         val view = SelectedAdressDialogRecyclerBinding.inflate(layoutInflater)

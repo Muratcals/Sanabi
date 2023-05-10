@@ -47,6 +47,10 @@ class Repository {
         return APIServices().RetrofitServices().getOrder()
     }
 
+    fun getCustomerOrders(id:Int):Call<OrderProductModel>{
+        return APIServices().RetrofitServices().getCustomerOrders(id)
+    }
+
     fun getLastOrderContent(id:Int):Call<OrderProductModel>{
         return APIServices().RetrofitServices().getOrderContent(id)
     }
@@ -57,6 +61,14 @@ class Repository {
 
     fun deleteAddress(id:Int):Call<AddressData>{
         return APIServices().RetrofitServices().deleteAddress(id)
+    }
+
+    fun getAllPaymentType():Call<PaymentTypeModel>{
+        return APIServices().RetrofitServices().getAllPaymentType()
+    }
+
+    fun getPaymentType(id:Int):Call<GetPaymentType>{
+        return APIServices().RetrofitServices().getPaymentType(id)
     }
 
     fun getCategory(categoryId: Int):Call<SearchGetCategoryModel>{

@@ -67,6 +67,14 @@ interface RetrofitAPI {
     @GET("api/Category")
     suspend fun getAllCategory():Response<CategoryModel>
 
+    @GET("api/Order/{id}")
+    fun getCustomerOrders(@Path("id") id :Int):Call<OrderProductModel>
+
+    @GET("api/PaymentType")
+    fun getAllPaymentType():Call<PaymentTypeModel>
+
+    @GET("api/PaymentType")
+    fun getPaymentType(@Path("id") id :Int):Call<GetPaymentType>
     @GET("api/Category/{id}")
     fun getCategory(@Path("id") id:Int):Call<SearchGetCategoryModel>
 

@@ -20,6 +20,8 @@ interface RoomDao {
     @Update
     fun updateBasket(basket: BasketProductModelData)
 
+    @Query("DELETE FROM product")
+    fun deleteAllBasket()
     @Query("DELETE FROM product where id=:productId")
     fun deleteAllBaskets(productId:Int)
 
