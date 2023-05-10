@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/pastSearchText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ayran"
+        android:textStyle="normal"
+        android:textColor="@color/black"
+        android:textSize="@dimen/_9ssp"
+        android:fontFamily="@font/arial"
+        android:background="@drawable/only_search_text_shape"
+        android:layout_margin="@dimen/_5sdp"/>
+
+</LinearLayout>

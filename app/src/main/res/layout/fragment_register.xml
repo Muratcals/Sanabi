@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:orientation="vertical"
+    android:layout_width="fill_parent"
+    tools:context=".view.RegisterFragment"
+    android:layout_height="fill_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+        <ImageView
+            android:layout_gravity="center_vertical"
+            android:id="@+id/backPage"
+            android:layout_width="@dimen/_30sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:src="@drawable/backpage" />
+        <TextView
+            android:textSize="@dimen/_13ssp"
+            android:textStyle="bold"
+            android:textColor="@color/pink"
+            android:layout_gravity="end|center"
+            android:id="@+id/register_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Devam Et"
+            android:fontFamily="@font/arial"
+            android:layout_marginEnd="@dimen/_15sdp" />
+    </androidx.appcompat.widget.Toolbar>
+    <ScrollView
+        android:id="@+id/scrollView2"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/toolbar">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:src="@drawable/register_icon"
+                android:layout_marginHorizontal="@dimen/_15sdp" />
+            <TextView
+                android:textSize="@dimen/_23ssp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:text="Hadi başlayalım!"
+                android:fontFamily="@font/arial"
+                android:layout_marginHorizontal="@dimen/_15sdp" />
+            <TextView
+                android:textSize="@dimen/_12ssp"
+                android:textStyle="normal"
+                android:textColor="@color/black"
+                android:id="@+id/information"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:text="Şimdi deneme123@gmail.com ile bir Sanabi hesabı oluşturalım"
+                android:lineSpacingExtra="@dimen/_5sdp"
+                android:fontFamily="@font/arial"
+                android:layout_marginHorizontal="@dimen/_15sdp" />
+            <RelativeLayout
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content">
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/name"
+                    android:layout_width="@dimen/_125sdp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:hint="İsim"
+                    android:layout_marginStart="@dimen/_15sdp"
+                    android:layout_alignParentStart="true"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:textSize="@dimen/_13ssp"
+                        android:textColor="@color/black"
+                        android:maxLength="50"
+                        android:id="@+id/nameText"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        app:boxStrokeColor="@color/pink" />
+                </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/lastName"
+                    android:layout_width="@dimen/_125sdp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:hint="Soyisim"
+                    android:layout_marginEnd="@dimen/_15sdp"
+                    android:layout_alignParentEnd="true"
+                    app:boxStrokeColor="@color/pink"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:textSize="@dimen/_13ssp"
+                        android:textColor="@color/black"
+                        android:maxLength="50"
+                        android:id="@+id/lastNameText"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content" />
+                </com.google.android.material.textfield.TextInputLayout>
+            </RelativeLayout>
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/calendar"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:hint="Doğum Tarihi(İsteğe bağlı)"
+                android:layout_marginHorizontal="@dimen/_15sdp"
+                app:boxStrokeColor="@color/pink"
+                app:endIconDrawable="@drawable/calendar_icon"
+                app:endIconMode="custom"
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:enabled="false"
+                    android:textSize="@dimen/_13ssp"
+                    android:textColor="@color/black"
+                    android:id="@+id/calendarText"
+                    android:clickable="false"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="phone|number" />
+            </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/phone"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:hint="Telefon numarası"
+                android:layout_marginHorizontal="@dimen/_15sdp"
+                app:boxStrokeColor="@color/pink"
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:textSize="@dimen/_13ssp"
+                    android:textColor="@color/black"
+                    android:maxLength="11"
+                    android:id="@+id/phoneText"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number" />
+            </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/password"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:hint="Şifre"
+                android:layout_alignParentEnd="true"
+                android:layout_marginHorizontal="@dimen/_15sdp"
+                app:boxStrokeColor="@color/pink"
+                app:endIconMode="password_toggle"
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:textSize="@dimen/_13ssp"
+                    android:textColor="@color/black"
+                    android:id="@+id/passwordText"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPassword" />
+            </com.google.android.material.textfield.TextInputLayout>
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginHorizontal="@dimen/_15sdp">
+                <ImageView
+                    android:id="@+id/error1"
+                    android:layout_width="@dimen/_20sdp"
+                    android:layout_height="@dimen/_20sdp"
+                    android:src="@drawable/error" />
+                <TextView
+                    android:textSize="@dimen/_11ssp"
+                    android:textColor="@color/black"
+                    android:layout_gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="En az 10 karakter"
+                    android:layout_marginStart="@dimen/_5sdp" />
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_marginHorizontal="@dimen/_15sdp">
+                <ImageView
+                    android:id="@+id/error2"
+                    android:layout_width="@dimen/_20sdp"
+                    android:layout_height="@dimen/_20sdp"
+                    android:src="@drawable/error" />
+                <TextView
+                    android:textSize="@dimen/_11ssp"
+                    android:textColor="@color/black"
+                    android:layout_gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="En az bir büyük harf (A-Z)"
+                    android:layout_marginStart="@dimen/_5sdp" />
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_marginHorizontal="@dimen/_15sdp">
+                <ImageView
+                    android:id="@+id/error3"
+                    android:layout_width="@dimen/_20sdp"
+                    android:layout_height="@dimen/_20sdp"
+                    android:src="@drawable/error" />
+                <TextView
+                    android:textSize="@dimen/_11ssp"
+                    android:textColor="@color/black"
+                    android:layout_gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="En az bir küçük harf(a-z)"
+                    android:layout_marginStart="@dimen/_5sdp" />
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_marginHorizontal="@dimen/_15sdp">
+                <ImageView
+                    android:id="@+id/error4"
+                    android:layout_width="@dimen/_20sdp"
+                    android:layout_height="@dimen/_20sdp"
+                    android:src="@drawable/error" />
+                <TextView
+                    android:textSize="@dimen/_11ssp"
+                    android:textColor="@color/black"
+                    android:layout_gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="En az bir rakam (0-9)"
+                    android:layout_marginStart="@dimen/_5sdp" />
+            </LinearLayout>
+            <Button
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:layout_gravity="bottom"
+                android:id="@+id/registerButton"
+                android:background="@drawable/error_button_shape"
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/_35sdp"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:layout_marginBottom="@dimen/_15sdp"
+                android:text="Devam et"
+                android:fontFamily="@font/arial"
+                android:layout_marginHorizontal="@dimen/_15sdp"
+                app:backgroundTint="@null"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>

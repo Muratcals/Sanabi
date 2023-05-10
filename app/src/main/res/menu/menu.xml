@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <group
+        android:menuCategory="secondary">
+        <item
+            android:icon="@drawable/sumarry_icon"
+            android:id="@+id/lastorder"
+            android:title="Önceki Siparişlerim" />
+        <item
+            android:icon="@drawable/user_icon"
+            android:id="@+id/accountFragment"
+            android:title="Hesabım" />
+        <item
+            android:icon="@drawable/visit_icon"
+            android:id="@+id/selectedAdress"
+            android:title="Adreslerim" />
+        <item
+            android:icon="@drawable/help_icon"
+            android:id="@+id/yardim"
+            android:title="Yardım Merkezi" />
+        <item
+            android:id="@+id/ayarlar"
+            android:title="Ayarlar" />
+        <item
+            android:id="@+id/cikis"
+            android:title="Çıkış Yap" />
+    </group>
+</menu>

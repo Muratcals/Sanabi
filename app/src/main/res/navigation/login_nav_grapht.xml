@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/login_nav_grapht"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:startDestination="@id/emailControlFragment">
+    <fragment
+        android:id="@+id/emailControlFragment"
+        android:name="com.example.sanabi.view.EmailControlFragment"
+        android:label="fragment_email_control"
+        tools:layout="@layout/fragment_email_control" >
+        <action
+            android:id="@+id/action_emailControlFragment_to_registerGoogleFragment"
+            app:destination="@id/registerGoogleFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
+        <action
+            android:id="@+id/action_emailControlFragment_to_successMailFragment"
+            app:destination="@id/successMailFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
+        <action
+            android:id="@+id/action_emailControlFragment_to_registerFragment"
+            app:destination="@id/registerFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/registerGoogleFragment"
+        android:name="com.example.sanabi.view.RegisterGoogleFragment"
+        android:label="fragment_register_google"
+        tools:layout="@layout/fragment_register_google" >
+        <argument android:name="account"
+            app:argType="com.google.android.gms.auth.api.signin.GoogleSignInAccount" />
+    </fragment>
+    <fragment
+        android:id="@+id/successMailFragment"
+        android:name="com.example.sanabi.view.SuccessMailFragment"
+        android:label="fragment_success_mail"
+        tools:layout="@layout/fragment_success_mail" >
+        <argument
+            android:name="bundle"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/registerFragment"
+        android:name="com.example.sanabi.view.RegisterFragment"
+        android:label="fragment_register"
+        tools:layout="@layout/fragment_register" >
+        <argument
+            android:name="eMail"
+            app:argType="string" />
+    </fragment>
+</navigation>

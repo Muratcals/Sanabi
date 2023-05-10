@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/order_nav_grapht"
+    app:startDestination="@id/newOrderCreateFragment">
+
+    <fragment
+        android:id="@+id/newOrderCreateFragment"
+        android:name="com.example.sanabi.view.NewOrderCreateFragment"
+        android:label="fragment_new_order_create"
+        tools:layout="@layout/fragment_new_order_create" >
+        <action
+            android:id="@+id/action_newOrderCreateFragment_to_orderPaymentFragment"
+            app:destination="@id/orderPaymentFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/orderPaymentFragment"
+        android:name="com.example.sanabi.view.OrderPaymentFragment"
+        android:label="fragment_order_payment"
+        tools:layout="@layout/fragment_order_payment" >
+        <argument
+            android:name="productPrice"
+            android:defaultValue="0.0" />
+    </fragment>
+</navigation>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_nav_grapht"
+    app:startDestination="@id/productMainFragment">
+
+    <fragment
+        android:id="@+id/productMainFragment"
+        android:name="com.example.sanabi.view.ProductMainFragment"
+        android:label="fragment_product_main"
+        tools:layout="@layout/fragment_product_main" >
+        <action
+            android:id="@+id/action_productMainFragment_to_categoryContentFragment"
+            app:destination="@id/categoryContentFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/categoryContentFragment"
+        android:name="com.example.sanabi.view.CategoryContentFragment"
+        android:label="fragment_category_content"
+        tools:layout="@layout/fragment_category_content" >
+        <argument android:name="id"
+            app:argType="integer" />
+    </fragment>
+</navigation>

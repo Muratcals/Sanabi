@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/category_recycler_view_shape"
+    android:orientation="horizontal"
+    android:layout_marginStart="@dimen/_10sdp"
+    android:layout_marginTop="@dimen/_10sdp">
+
+        <ImageView
+            android:id="@+id/searchCategoryImage"
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="@dimen/_40sdp"
+            android:src="@drawable/karam"
+            android:padding="@dimen/_5sdp"/>
+
+        <TextView
+            android:id="@+id/searchCategoryName"
+            android:layout_width="@dimen/_80sdp"
+            android:layout_height="wrap_content"
+            android:text="Çok al az öde"
+            android:textColor="@color/black"
+            android:fontFamily="@font/arial"
+            android:layout_gravity="center"
+            android:textSize="@dimen/_10ssp"
+            android:layout_marginStart="@dimen/_5sdp"
+            android:textStyle="bold"
+            android:layout_marginEnd="@dimen/_5sdp"/>
+
+</LinearLayout>

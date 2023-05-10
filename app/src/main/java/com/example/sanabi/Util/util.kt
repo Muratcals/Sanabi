@@ -1,0 +1,27 @@
+package com.example.sanabi.Util
+
+import android.content.Context
+import androidx.room.Room
+import com.example.sanabi.Room.RoomServices
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
+import retrofit2.http.Headers
+
+object  util {
+
+
+    //https://ozerhamza.xyz/api/Customers
+    //http://omerahiskali.com.tr/WebServiceDeneme/insert_kisiler.php
+    val BASE_URL="https://ozerhamza.xyz"
+    val BASE_URL2="http://omerahiskali.com.tr"
+    val imageBaseUrl="https://ozerhamza.com.tr/img/"
+    val auth =FirebaseAuth.getInstance()
+    val database =FirebaseFirestore.getInstance()
+    var customerId=0
+    val gso =GoogleSignInOptions.Builder().requestIdToken("1035051567451-cl64127icla2au8q56m1nsltm20p55hs.apps.googleusercontent.com").requestEmail().build()
+
+
+
+}

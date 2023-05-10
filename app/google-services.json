@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1035051567451",
+    "project_id": "sanabi-ad7e8",
+    "storage_bucket": "sanabi-ad7e8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1035051567451:android:15acd1d3318e02d73b327e",
+        "android_client_info": {
+          "package_name": "com.example.sanabi"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1035051567451-raldolhit6rcnkanebq5rrfc1buqgg5c.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.sanabi",
+            "certificate_hash": "c1ea34869a501616115a90990ec4e5b1a6c178f9"
+          }
+        },
+        {
+          "client_id": "1035051567451-cl64127icla2au8q56m1nsltm20p55hs.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDTjBOj9928A5cSvTaUdWd-iswu5vqcYYU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1035051567451-cl64127icla2au8q56m1nsltm20p55hs.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

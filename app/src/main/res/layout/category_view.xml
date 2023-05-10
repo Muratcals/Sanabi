@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginStart="@dimen/_5sdp">
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/categoryImage"
+            android:layout_width="@dimen/_55sdp"
+            android:layout_height="@dimen/_55sdp"
+            android:src="@drawable/ic_launcher_background"
+            android:layout_marginVertical="@dimen/_10sdp"
+            app:civ_border_color="@color/gray"
+            app:civ_border_width="@dimen/_1sdp"/>
+        <TextView
+            android:id="@+id/categoryText"
+            android:layout_width="@dimen/_55sdp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Çok al az öde"
+            android:layout_gravity="center"
+            android:textColor="@color/black"
+            android:fontFamily="sans-serif-black"
+            android:textSize="@dimen/_10ssp" />
+
+    </LinearLayout>
+
+
+</LinearLayout>
