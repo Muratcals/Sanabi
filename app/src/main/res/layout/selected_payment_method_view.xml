@@ -1,12 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginHorizontal="@dimen/_10sdp"
+        android:layout_marginVertical="@dimen/_10ssp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:fontFamily="sans-serif-black"
+            android:text="Ödeme Yöntemini Seç"
+            android:textColor="@color/pink"
+            android:textSize="@dimen/_15ssp" />
+    </LinearLayout>
 
     <RadioGroup
         android:id="@+id/paymentMethodRadioGroup"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/_10sdp">
 
         <RadioButton
             android:id="@+id/cashPayment"
@@ -21,6 +41,22 @@
             android:text="RadioButton 2" />
 
     </RadioGroup>
+
+    <Button
+        android:id="@+id/paymentDialogButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginHorizontal="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_marginBottom="@dimen/_15sdp"
+        android:textSize="@dimen/_10ssp"
+        android:background="@drawable/next_button_shape"
+        android:fontFamily="@font/arial"
+        android:text="Ödeme yöntemini seçin"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        app:backgroundTint="@null" />
 
 
 </LinearLayout>

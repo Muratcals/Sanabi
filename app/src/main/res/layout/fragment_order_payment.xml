@@ -20,11 +20,16 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_marginHorizontal="@dimen/_5sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginBottom="@dimen/_5sdp"
+                android:background="@drawable/product_view_shape">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/_5sdp">
 
                     <ImageView
                         android:id="@+id/paymentVisitIcon"
@@ -34,7 +39,7 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        android:layout_margin="@dimen/_10sdp"
+                        android:layout_margin="@dimen/_5sdp"
                         tools:ignore="MissingConstraints" />
 
                     <TextView
@@ -53,14 +58,13 @@
                     <ImageView
                         android:layout_width="@dimen/_20sdp"
                         android:layout_height="@dimen/_20sdp"
-                        android:src="@drawable/edit_icon"
-                        android:id="@+id/paymentEditButton"
+                        android:src="@drawable/pencil_icon"
+                        android:id="@+id/paymentAddressEditButton"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        android:layout_margin="@dimen/_10sdp"
+                        android:layout_margin="@dimen/_5sdp"
                         tools:ignore="MissingConstraints" />
-
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -69,8 +73,9 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     tools:ignore="MissingConstraints"
-                    android:layout_marginHorizontal="@dimen/_15sdp"
-                    android:layout_marginTop="@dimen/_5sdp">
+                    android:layout_marginHorizontal="@dimen/_5sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:padding="@dimen/_5sdp">
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -103,49 +108,77 @@
 
                 </LinearLayout>
 
-                <LinearLayout
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@android:color/darker_gray" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/addressDetailsUpdate"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:background="@drawable/layout_too_bottom_shape"
-                    android:layout_marginVertical="@dimen/_10sdp">
+                    android:layout_marginVertical="@dimen/_5sdp"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:orientation="horizontal">
+
 
                     <ImageView
+                        android:id="@+id/paymentAddIcon"
                         android:layout_width="@dimen/_20sdp"
                         android:layout_height="@dimen/_20sdp"
-                        android:src="@drawable/add_icon"
-                        android:id="@+id/paymentAddIcon"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
                         android:layout_margin="@dimen/_5sdp"
+                        android:src="@drawable/add_icon"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
                         tools:ignore="MissingConstraints" />
+
                     <TextView
                         android:id="@+id/addPaymentAddressDetails"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center_vertical"
-                        android:layout_marginStart="@dimen/_10sdp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="@dimen/_5sdp"
                         android:fontFamily="sans-serif-black"
-                        android:text="Teslimat Adresi"
+                        android:gravity="center_vertical"
+                        android:text="Adres tarifi ekleyiniz"
                         android:textColor="@color/pink"
                         android:textSize="@dimen/_12ssp"
                         android:textStyle="bold"
-                        android:layout_gravity="center_vertical"/>
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/paymentAddIcon"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-                </LinearLayout>
+                    <ImageView
+                        android:layout_width="@dimen/_23sdp"
+                        android:layout_marginEnd="@dimen/_10sdp"
+                        android:layout_height="@dimen/_23sdp"
+                        android:src="@drawable/right_icon"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:ignore="MissingConstraints" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginBottom="@dimen/_10sdp"
+                    android:background="@android:color/darker_gray" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_margin="@dimen/_5sdp"
+                android:background="@drawable/product_view_shape">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginVertical="@dimen/_10sdp">
+                    android:layout_marginVertical="@dimen/_5sdp">
 
                     <ImageView
                         android:id="@+id/imageView2"
@@ -174,7 +207,7 @@
                     <ImageView
                         android:layout_width="@dimen/_20sdp"
                         android:layout_height="@dimen/_20sdp"
-                        android:src="@drawable/edit_icon"
+                        android:src="@drawable/pencil_icon"
                         android:id="@+id/paymentMethodEditButton"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -192,7 +225,8 @@
                     android:orientation="horizontal"
                     tools:ignore="MissingConstraints"
                     android:layout_marginHorizontal="@dimen/_10sdp"
-                    android:layout_marginTop="@dimen/_5sdp">
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_marginBottom="@dimen/_10sdp">
 
                     <ImageView
                         android:id="@+id/paymentMethodIcon"
@@ -207,12 +241,11 @@
                         android:id="@+id/paymentMethodText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/arial"
+                        android:fontFamily="sans-serif-black"
                         android:layout_marginStart="@dimen/_10sdp"
                         android:text="Nakit"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/_13ssp"
-                        android:textStyle="bold"
+                        android:textSize="@dimen/_12ssp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/paymentMethodIcon"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -233,13 +266,17 @@
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@android:color/darker_gray" />
                 <LinearLayout
                     android:id="@+id/methodUpdateLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:background="@drawable/layout_too_bottom_shape"
-                    android:layout_marginVertical="@dimen/_10sdp">
+                    android:layout_marginVertical="@dimen/_5sdp">
 
                     <ImageView
                         android:layout_width="@dimen/_20sdp"
@@ -264,19 +301,27 @@
                         android:layout_gravity="center_vertical"/>
 
                 </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginBottom="@dimen/_10sdp"
+                    android:background="@android:color/darker_gray" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:background="@drawable/product_view_shape">
+                android:background="@drawable/product_view_shape"
+                android:layout_margin="@dimen/_5sdp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_10sdp"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:layout_marginVertical="@dimen/_5sdp">
 
                     <ImageView
                         android:layout_width="wrap_content"
@@ -301,13 +346,21 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_5sdp"
-                    android:padding="@dimen/_5sdp" />
+                    android:layout_marginVertical="@dimen/_5sdp"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginHorizontal="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:background="@android:color/darker_gray" />
 
                 <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_10sdp"
-                    android:layout_marginTop="@dimen/_15sdp"
+                    android:layout_marginBottom="@dimen/_5sdp"
+                    android:layout_marginHorizontal="@dimen/_5sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
                     android:orientation="horizontal">
 
                     <TextView
@@ -335,8 +388,8 @@
                 <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_10sdp"
-                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_marginVertical="@dimen/_5sdp"
+                    android:layout_marginHorizontal="@dimen/_5sdp"
                     android:orientation="horizontal">
 
                     <TextView
@@ -363,8 +416,9 @@
                 <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_10sdp"
-                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_marginVertical="@dimen/_5sdp"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:layout_marginEnd="@dimen/_5sdp"
                     android:orientation="horizontal">
 
                     <TextView
@@ -400,51 +454,59 @@
                 android:textColor="@color/black"
                 android:textSize="@dimen/_11ssp" />
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_10sdp">
-                <TextView
-                    android:layout_width="wrap_content"
+                android:orientation="vertical"
+                android:background="@drawable/product_view_shape"
+                android:layout_margin="@dimen/_5sdp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="@dimen/_10sdp"
-                    android:fontFamily="@font/arial"
-                    android:text="Toplam Tutar"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/_12ssp"
-                    android:layout_alignParentStart="true"
-                    android:gravity="center"
-                    android:textStyle="bold" />
+                    android:layout_marginTop="@dimen/_10sdp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="@dimen/_10sdp"
+                        android:fontFamily="@font/arial"
+                        android:text="Toplam Tutar"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_12ssp"
+                        android:layout_alignParentStart="true"
+                        android:gravity="center"
+                        android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/paymentSumPrice"
-                    android:layout_alignParentEnd="true"
-                    android:layout_width="wrap_content"
+                    <TextView
+                        android:id="@+id/paymentSumPrice"
+                        android:layout_alignParentEnd="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="@dimen/_10sdp"
+                        android:fontFamily="@font/arial"
+                        android:text="105 TL"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_12ssp"
+                        android:textStyle="bold" />
+
+                </RelativeLayout>
+
+                <Button
+                    android:id="@+id/orderNextButton"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
                     android:layout_marginHorizontal="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginBottom="@dimen/_10sdp"
+                    android:textSize="@dimen/_10ssp"
+                    android:background="@drawable/next_button_shape"
                     android:fontFamily="@font/arial"
-                    android:text="105 TL"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/_12ssp"
-                    android:textStyle="bold" />
-
-            </RelativeLayout>
-
-            <Button
-                android:id="@+id/orderNextButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:layout_marginHorizontal="@dimen/_10sdp"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:layout_marginBottom="@dimen/_15sdp"
-                android:textSize="@dimen/_10ssp"
-                android:background="@drawable/next_button_shape"
-                android:fontFamily="@font/arial"
-                android:text="Ödeme yöntemini seçin"
-                android:textColor="@color/white"
-                android:textStyle="bold"
-                app:backgroundTint="@null" />
+                    android:text="Ödeme yöntemini seçin"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    app:backgroundTint="@null" />
+            </LinearLayout>
 
         </LinearLayout>
     </ScrollView>

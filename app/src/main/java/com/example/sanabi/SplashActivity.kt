@@ -26,7 +26,6 @@ class SplashActivity : AppCompatActivity() {
 
     private lateinit var googleSignIn:GoogleSignInClient
     private lateinit var binding :ActivitySplashBinding
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding=ActivitySplashBinding.inflate(layoutInflater)
@@ -34,23 +33,32 @@ class SplashActivity : AppCompatActivity() {
         googleSignIn=GoogleSignIn.getClient(applicationContext,util.gso)
         val textAnim=AnimationUtils.loadAnimation(applicationContext,R.anim.splas_animation)
         binding.splashText.startAnimation(textAnim)
-        object:CountDownTimer(4000,1000){
-            override fun onTick(p0: Long) {
-                if (p0.toInt()<2000 && binding.splashText.isVisible){
-                    binding.splashText.visibility=View.INVISIBLE
-                    binding.splashAnim.visibility=View.VISIBLE
-                    binding.splashAnim.playAnimation()
-                }
-            }
-            override fun onFinish() {
-                if (internetControl()){
-                    loginAlertDialog()
-                }else{
-                    Toast.makeText(applicationContext, "Internet bağlantınızı kontrol ediniz", Toast.LENGTH_SHORT).show()
-                }
 
+        val incoming =intent.getStringExtra("incoming")
+        if (incoming!=null){
+            object:CountDownTimer(4000,1000){
+                override fun onTick(p0: Long) {
+                    if (p0.toInt()<2000 && binding.splashText.isVisible){
+                        binding.splashText.visibility=View.INVISIBLE
+                        binding.splashAnim.visibility=View.VISIBLE
+                        binding.splashAnim.playAnimation()
+                    }
+                }
+                override fun onFinish() {
+                    if (internetControl()){
+                        loginAlertDialog()
+                    }else{
+                        Toast.makeText(applicationContext, "Internet bağlantınızı kontrol ediniz", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }.start()
+        }else{
+            if (internetControl()){
+                loginAlertDialog()
+            }else{
+                Toast.makeText(applicationContext, "Internet bağlantınızı kontrol ediniz", Toast.LENGTH_SHORT).show()
             }
-        }.start()
+        }
     }
     fun loginAlertDialog() {
         if (util.auth.currentUser!=null){
@@ -110,9 +118,5 @@ class SplashActivity : AppCompatActivity() {
         intent.putExtra("account",bundle)
         intent.putExtra("coming","Google")
         startActivity(intent)
-    }
-
-    fun userControl(){
-
     }
 }

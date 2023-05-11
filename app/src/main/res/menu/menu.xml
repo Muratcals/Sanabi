@@ -17,13 +17,13 @@
             android:title="Adreslerim" />
         <item
             android:icon="@drawable/help_icon"
-            android:id="@+id/yardim"
+            android:id="@+id/help"
             android:title="Yardım Merkezi" />
         <item
-            android:id="@+id/ayarlar"
+            android:id="@+id/settings"
             android:title="Ayarlar" />
         <item
-            android:id="@+id/cikis"
+            android:id="@+id/exit"
             android:title="Çıkış Yap" />
     </group>
 </menu>

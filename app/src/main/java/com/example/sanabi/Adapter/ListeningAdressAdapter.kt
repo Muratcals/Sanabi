@@ -100,6 +100,7 @@ class ListeningAdressAdapter(
         val layoutInflater =LayoutInflater.from(view.context)
         val dialogViewBinding = SelectedAdressViewBinding.inflate(layoutInflater)
         bottomSheetDialog.setContentView(dialogViewBinding.root)
+        bottomSheetDialog.setCancelable(false)
         bottomSheetDialog.show()
         dialogViewBinding.lastText.setText("${adress.neighbourhood} ${adress.street} ${adress.buildingNo}")
         dialogViewBinding.secText.setText("${adress.districte} ${adress.province?:"İstanbul"} ${adress.postCode}")

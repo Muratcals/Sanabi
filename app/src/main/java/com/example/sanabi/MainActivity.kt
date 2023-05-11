@@ -32,6 +32,9 @@ import com.example.sanabi.model.AddressModel
 import com.example.sanabi.model.GetAddressModel
 import com.example.sanabi.model.GetIdModel
 import com.example.sanabi.model.GetUserInformation
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
@@ -48,6 +51,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var menuHeader: MenuHeaderBinding
     private lateinit var addressAdapter: MainAddressControlRecycler
     private lateinit var sharedPreferences: SharedPreferences
+    private lateinit var googleSingIn:GoogleSignInClient
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -83,6 +87,16 @@ class MainActivity : AppCompatActivity() {
                 R.id.selectedAdress -> {
                     intent.putExtra("incoming", "address")
                     startActivity(intent)
+                    true
+                }
+                R.id.exit->{
+                    googleSingIn=GoogleSignIn.getClient(applicationContext,util.gso)
+                    googleSingIn.signOut()
+                    util.auth.signOut()
+                    val intentsSplash =Intent(this,SplashActivity::class.java)
+                    intentsSplash.putExtra("incoming","exit")
+                    startActivity(intentsSplash)
+                    this.finish()
                     true
                 }
                 else -> false
