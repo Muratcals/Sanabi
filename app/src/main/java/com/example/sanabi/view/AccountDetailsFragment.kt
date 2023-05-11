@@ -44,6 +44,7 @@ class AccountDetailsFragment : Fragment() {
             when (incoming) {
                 "name"->{
                     activity.supportActionBar!!.hide()
+                    binding.passwordControl.visibility=View.GONE
                 }
                 "password" -> {
                     binding.headText.setText("Şifre")
@@ -54,11 +55,13 @@ class AccountDetailsFragment : Fragment() {
                 }
                 "birthDate" -> {
                     binding.headText.setText("Doğum Tarihi")
+                    binding.passwordControl.visibility=View.GONE
                     activity.supportActionBar!!.hide()
                     updatedate()
                 }
                 "numberPhone"->{
                     binding.headText.setText("Telefon Numarası")
+                    binding.passwordControl.visibility=View.GONE
                     activity.supportActionBar!!.hide()
                     updatePhone()
                 }

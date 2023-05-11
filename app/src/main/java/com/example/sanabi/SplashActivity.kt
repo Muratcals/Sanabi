@@ -33,9 +33,8 @@ class SplashActivity : AppCompatActivity() {
         googleSignIn=GoogleSignIn.getClient(applicationContext,util.gso)
         val textAnim=AnimationUtils.loadAnimation(applicationContext,R.anim.splas_animation)
         binding.splashText.startAnimation(textAnim)
-
         val incoming =intent.getStringExtra("incoming")
-        if (incoming!=null){
+        if (incoming==null){
             object:CountDownTimer(4000,1000){
                 override fun onTick(p0: Long) {
                     if (p0.toInt()<2000 && binding.splashText.isVisible){
@@ -74,12 +73,10 @@ class SplashActivity : AppCompatActivity() {
                 val intent=Intent(this,LoginActivity::class.java)
                 intent.putExtra("coming","account")
                 startActivity(intent)
-                bottomSheetDialog.cancel()
             }
             binding.signInGoogle.setOnClickListener{
                 val intent =googleSignIn.signInIntent
                 startActivityForResult(intent,100)
-                bottomSheetDialog.cancel()
             }
         }
     }
