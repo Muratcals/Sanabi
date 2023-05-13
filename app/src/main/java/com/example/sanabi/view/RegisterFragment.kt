@@ -1,8 +1,7 @@
 package com.example.sanabi.view
 
 import android.app.DatePickerDialog
-import android.content.Intent
-import android.icu.text.SimpleDateFormat
+import android.icu.util.Calendar
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -12,15 +11,12 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
-import com.example.sanabi.MainActivity
 import com.example.sanabi.R
+import com.example.sanabi.Util.dateFormat
 import com.example.sanabi.databinding.FragmentRegisterBinding
 import com.example.sanabi.model.Data
 import com.example.sanabi.viewModel.RegisterViewModel
-import com.google.type.DateTime
 import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
-import java.util.*
 
 class RegisterFragment : Fragment() {
 
@@ -67,7 +63,7 @@ class RegisterFragment : Fragment() {
                     cal.set(Calendar.YEAR, p1)
                     cal.set(Calendar.DAY_OF_MONTH-1, p3)
                     cal.set(Calendar.MONTH, p2)
-                    dateFormat()
+                    binding.calendarText.dateFormat(cal)
                 }, now.year, now.monthValue - 1, now.dayOfMonth
             )
             datepickerlistener.show()
@@ -124,9 +120,7 @@ class RegisterFragment : Fragment() {
             )
         }
         viewModel.saveControl.observe(viewLifecycleOwner) {
-            if (it){
 
-            }
         }
     }
     fun passwordSuccessControl(): Boolean {
@@ -147,11 +141,5 @@ class RegisterFragment : Fragment() {
         }else{
             return false
         }
-    }
-
-    fun dateFormat() {
-        val format = SimpleDateFormat("dd-MM-yyyy")
-        val strDate: String = format.format(cal.getTime())
-        binding.calendarText.setText(strDate)
     }
 }

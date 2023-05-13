@@ -1,10 +1,16 @@
 package com.example.sanabi.Util
 
 import android.content.res.Resources
+import android.icu.text.SimpleDateFormat
+import android.icu.util.Calendar
+import android.widget.EditText
 import android.widget.ImageView
-import com.bumptech.glide.Glide
+import android.widget.TextView
 import com.squareup.picasso.Picasso
 import de.hdodenhof.circleimageview.CircleImageView
+import java.math.RoundingMode
+import java.text.DecimalFormat
+import java.text.DecimalFormatSymbols
 
 fun ImageView.downloadImage(url:String){
     Picasso.get().load("${util.imageBaseUrl}/${url}").into(this)
@@ -18,4 +24,21 @@ fun CircleImageView.downloadImage(url:String){
 }
 fun Int.dp():Int{
     return (this * Resources.getSystem().displayMetrics.density + 0.5f).toInt()
+}
+
+
+fun EditText.dateFormat(cal: Calendar){
+    val format = SimpleDateFormat("dd.MM.yyyy")
+    val strDate: String = format.format(cal.getTime())
+    this.setText(strDate)
+}
+
+fun TextView.decimalFormet(double: Double) {
+    val otherSymbol = DecimalFormatSymbols()
+    otherSymbol.decimalSeparator = ','
+    otherSymbol.groupingSeparator = '.'
+    val df = DecimalFormat("##.##")
+    df.decimalFormatSymbols = otherSymbol
+    df.roundingMode = RoundingMode.DOWN
+    this.setText("${df.format(double)} TL")
 }

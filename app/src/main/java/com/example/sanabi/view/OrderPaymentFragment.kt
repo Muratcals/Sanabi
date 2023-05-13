@@ -20,12 +20,15 @@ import com.example.sanabi.API.Repository
 import com.example.sanabi.Adapter.MainAddressControlRecycler
 import com.example.sanabi.Adapter.OrderPaymentProductRecycler
 import com.example.sanabi.R
+import com.example.sanabi.Util.decimalFormet
 import com.example.sanabi.Util.util
 import com.example.sanabi.databinding.FragmentOrderPaymentBinding
 import com.example.sanabi.databinding.SelectedAdressDialogRecyclerBinding
 import com.example.sanabi.databinding.SelectedAdressViewBinding
 import com.example.sanabi.model.AddressData
 import com.example.sanabi.model.AddressModel
+import com.example.sanabi.model.CreateOrderModel
+import com.example.sanabi.model.Product
 import com.example.sanabi.viewModel.OrderPaymentViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlinx.coroutines.flow.launchIn
@@ -44,10 +47,10 @@ class OrderPaymentFragment : Fragment() {
     private lateinit var adapter: OrderPaymentProductRecycler
     private lateinit var sharedPreferences: SharedPreferences
     val repository = Repository()
-    var name =""
-    var jobTick=0
-    var homeTick=0
-    var partnerTick=0
+    var name = ""
+    var jobTick = 0
+    var homeTick = 0
+    var partnerTick = 0
     val transferPrice = 15.25
 
     override fun onCreateView(
@@ -62,6 +65,7 @@ class OrderPaymentFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(this).get(OrderPaymentViewModel::class.java)
         viewModel.getProduct(requireView())
+        val product = ArrayList<Product>()
         sharedPreferences =
             requireActivity().getSharedPreferences("AddressId", Context.MODE_PRIVATE)
         val addressId = sharedPreferences.getInt("addressId", 0)
@@ -76,62 +80,106 @@ class OrderPaymentFragment : Fragment() {
         arguments.let {
             val productPrice = it!!.getDouble("productsPrice")
             viewModel.getProduct(requireView()).onEach {
+                if (it.isNotEmpty()) {
+                    for (item in it) {
+                        product.add(Product(item.id, item.amount))
+                    }
+                }
                 adapter.updateData(it)
-                binding.paymentProductSumPrice.setText("${viewModel.decimalFormet(productPrice)} TL")
-                binding.paymentMethodSumPrice.setText(viewModel.decimalFormet(productPrice + transferPrice))
-                binding.paymentSumPrice.setText(viewModel.decimalFormet(productPrice + transferPrice))
+                binding.paymentProductSumPrice.decimalFormet(productPrice)
+                binding.paymentMethodSumPrice.decimalFormet(productPrice + transferPrice)
+                binding.paymentSumPrice.decimalFormet(productPrice + transferPrice)
             }.launchIn(viewLifecycleOwner.lifecycleScope)
-        }
-        viewModel.addressInformation.observe(viewLifecycleOwner) {
-            if (it.data.name.isNotEmpty()) {
-                binding.paymentAddressDetails.setText(it.data.name)
-            } else {
-                binding.paymentAddressDetails.visibility = View.GONE
+            viewModel.addressInformation.observe(viewLifecycleOwner) {
+                if (it.data.name.isNotEmpty()) {
+                    binding.paymentAddressDetails.setText(it.data.name)
+                } else {
+                    binding.paymentAddressDetails.visibility = View.GONE
+                }
+                binding.paymentAddress2.setText("${it.data.neighbourhood} Mah. ${it.data.street} No:${it.data.buildingNo} ")
+                binding.paymentAddress3.setText("${it.data.districte} ${it.data.province} ${it.data.postCode}")
+                if (it.data.adressDetails.isNotEmpty()) {
+                    binding.paymentAddIcon.visibility = View.GONE
+                    binding.addPaymentAddressDetails.setText(it.data.adressDetails)
+                    binding.addPaymentAddressDetails.setTextColor(resources.getColor(R.color.black))
+                }
             }
-            binding.paymentAddress2.setText("${it.data.neighbourhood} Mah. ${it.data.street} No:${it.data.buildingNo} ")
-            binding.paymentAddress3.setText("${it.data.districte} ${it.data.province} ${it.data.postCode}")
-            if (it.data.adressDetails.isNotEmpty()) {
-                binding.paymentAddIcon.visibility = View.GONE
-                binding.addPaymentAddressDetails.setText(it.data.adressDetails)
+            binding.paymentMethodEditButton.setOnClickListener {
+                selectedPaymentDialog()
             }
-        }
-        binding.paymentMethodEditButton.setOnClickListener {
-            selectedPaymentDialog()
-        }
-        binding.addressDetailsUpdate.setOnClickListener {
-            viewModel.addressInformation.value?.data?.let { it1 -> textAdress(it1) }
-        }
-        binding.paymentAddressEditButton.setOnClickListener {
-            selectedAdressDialog()
+            binding.addressDetailsUpdate.setOnClickListener {
+                viewModel.addressInformation.value?.data?.let { it1 -> textAdress(it1) }
+            }
+            binding.paymentAddressEditButton.setOnClickListener {
+                selectedAdressDialog()
+            }
+            binding.orderSuccessButton.setOnClickListener {
+                if (binding.methodUpdateLayout.visibility == View.VISIBLE) {
+                    Toast.makeText(
+                        requireContext(),
+                        "Bir ödeme yöntemi seçiniz",
+                        Toast.LENGTH_SHORT
+                    )
+                        .show()
+                } else if (adapter.itemCount <= 0) {
+                    Toast.makeText(
+                        requireContext(),
+                        "Sepetinizide hiç bir ürün bulunmuyor",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                } else if (binding.paymentAddress2.text.isEmpty() && binding.paymentAddress3.text.isEmpty() && binding.paymentAddressDetails.text.isEmpty()) {
+                    Toast.makeText(requireContext(), "Bir adres seçin", Toast.LENGTH_SHORT).show()
+                } else {
+                    val paymentSharedPreferences =
+                        requireActivity().getSharedPreferences(
+                            "PaymentMethod",
+                            Context.MODE_PRIVATE
+                        )
+                    viewModel.paymentProducts
+                    val order = CreateOrderModel(
+                        product,
+                        sharedPreferences.getInt("addressId", 0),
+                        productPrice+transferPrice,
+                        "${LocalDate.now()} ${LocalTime.now().hour}:${LocalTime.now().minute}",
+                        util.customerId,
+                        0,
+                        5,
+                        paymentSharedPreferences.getInt("paymentId", 0)
+                    )
+                    viewModel.orderSuccess(requireActivity(), order)
+                }
+            }
         }
     }
 
-    fun paymentMehodUIUpdate(){
-        val sharedPreferencesPayment =requireActivity().getSharedPreferences("PaymentMethod",Context.MODE_PRIVATE)
-        val paymentId=sharedPreferencesPayment.getInt("paymentId",0)
+    fun paymentMehodUIUpdate() {
+        val sharedPreferencesPayment =
+            requireActivity().getSharedPreferences("PaymentMethod", Context.MODE_PRIVATE)
+        val paymentId = sharedPreferencesPayment.getInt("paymentId", 0)
         println(paymentId)
-        if (paymentId!=0){
-            binding.paymentMethodLayout.visibility=View.VISIBLE
-            binding.methodUpdateLayout.visibility=View.GONE
-            if (paymentId==1){
+        if (paymentId != 0) {
+            binding.paymentMethodLayout.visibility = View.VISIBLE
+            binding.methodUpdateLayout.visibility = View.GONE
+            if (paymentId == 1) {
                 binding.paymentMethodIcon.setImageResource(R.drawable.card_black_icon)
                 binding.paymentMethodText.setText("Kapıda Kredi Kartı ")
-            }else{
+            } else {
                 binding.paymentMethodIcon.setImageResource(R.drawable.purse_black_icon)
                 binding.paymentMethodText.setText("Nakit ")
             }
-        }else{
-            binding.paymentMethodLayout.visibility=View.GONE
-            binding.methodUpdateLayout.visibility=View.VISIBLE
+        } else {
+            binding.paymentMethodLayout.visibility = View.GONE
+            binding.methodUpdateLayout.visibility = View.VISIBLE
         }
     }
+
     fun selectedPaymentDialog() {
         val sharedPreferencesPayment =
             requireActivity().getSharedPreferences("PaymentMethod", Context.MODE_PRIVATE)
         val dialog = BottomSheetDialog(requireContext())
         val view = LayoutInflater.from(requireContext())
             .inflate(R.layout.selected_payment_method_view, null, false)
-        val paymentSelectedButton=view.findViewById<Button>(R.id.paymentDialogButton)
+        val paymentSelectedButton = view.findViewById<Button>(R.id.paymentDialogButton)
         val paymentRadioButton = view.findViewById<RadioGroup>(R.id.paymentMethodRadioGroup)
         val cashPaymentButton = view.findViewById<RadioButton>(R.id.cashPayment)
         val cardPaymentButton = view.findViewById<RadioButton>(R.id.cardPayment)
@@ -145,21 +193,21 @@ class OrderPaymentFragment : Fragment() {
                 cashPaymentButton.setText(it.data[0].typeName)
             }
         }
-        if (sharedPreferencesPayment.getInt("paymentId",0)==1){
-            cardPaymentButton.isChecked=true
-        }else{
-            cashPaymentButton.isChecked=true
+        if (sharedPreferencesPayment.getInt("paymentId", 0) == 1) {
+            cardPaymentButton.isChecked = true
+        } else {
+            cashPaymentButton.isChecked = true
         }
         dialog.setContentView(view)
         dialog.show()
         paymentSelectedButton.setOnClickListener {
-            val editor =sharedPreferencesPayment.edit()
+            val editor = sharedPreferencesPayment.edit()
             if (cardPaymentButton.isChecked) {
                 println("id 1 ")
-               editor.putInt("paymentId", 1)
+                editor.putInt("paymentId", 1)
             } else {
                 println("id 2 ")
-                editor.putInt("paymentId",2)
+                editor.putInt("paymentId", 2)
             }
             editor.apply()
             paymentMehodUIUpdate()
@@ -329,6 +377,7 @@ class OrderPaymentFragment : Fragment() {
             }
         }
     }
+
     fun updateIcon(viewBinding: SelectedAdressViewBinding) {
         if (homeTick == 1) {
             viewBinding.homeIcon.setBackgroundResource(R.drawable.circle_selected_shape)

@@ -1,21 +1,24 @@
 package com.example.sanabi.viewModel
 
+import android.app.Activity
 import android.view.View
+import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.sanabi.API.Repository
 import com.example.sanabi.Room.DatabaseRoom
 import com.example.sanabi.Room.RoomServices
 import com.example.sanabi.model.BasketProductModelData
+import com.example.sanabi.model.CreateOrderModel
 import com.example.sanabi.model.GetAddressModel
 import com.example.sanabi.model.PaymentTypeModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.math.RoundingMode
-import java.text.DecimalFormat
-import java.text.DecimalFormatSymbols
 
 class OrderPaymentViewModel : ViewModel() {
     val paymentProducts = MutableLiveData<List<BasketProductModelData>>()
@@ -29,16 +32,6 @@ class OrderPaymentViewModel : ViewModel() {
         progressBar.value = true
         db = DatabaseRoom.getDatabase(view.context)
         return db.roomDb().getAllBaskets()
-    }
-
-    fun decimalFormet(double: Double): String {
-        val otherSymbol = DecimalFormatSymbols()
-        otherSymbol.decimalSeparator = ','
-        otherSymbol.groupingSeparator = '.'
-        val df = DecimalFormat("#.##")
-        df.decimalFormatSymbols = otherSymbol
-        df.roundingMode = RoundingMode.DOWN
-        return df.format(double)
     }
 
     fun getPaymentType(){
@@ -77,5 +70,29 @@ class OrderPaymentViewModel : ViewModel() {
             }
 
         })
+    }
+
+    fun orderSuccess(activity: Activity, order: CreateOrderModel){
+        val postOrder =repository.postNewOrder(order)
+        postOrder.enqueue(object :Callback<CreateOrderModel>{
+            override fun onResponse(
+                call: Call<CreateOrderModel>,
+                response: Response<CreateOrderModel>
+            ) {
+                if (response.isSuccessful){
+                    Toast.makeText(activity.applicationContext, "Siparişiniz başarıyla oluşturuldu", Toast.LENGTH_SHORT).show()
+                    viewModelScope.launch(Dispatchers.IO) {
+                        db.roomDb().deleteAllBasket()
+                        activity.finish()
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<CreateOrderModel>, t: Throwable) {
+                println(t.localizedMessage)
+            }
+
+        })
+
     }
 }

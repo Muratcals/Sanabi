@@ -1,11 +1,8 @@
 package com.example.sanabi.Room
 
-import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.example.sanabi.model.*
-import com.google.firestore.v1.StructuredQuery.Order
 import kotlinx.coroutines.flow.Flow
-import retrofit2.Call
 
 @Dao
 interface RoomDao {
@@ -23,7 +20,7 @@ interface RoomDao {
     @Query("DELETE FROM product")
     fun deleteAllBasket()
     @Query("DELETE FROM product where id=:productId")
-    fun deleteAllBaskets(productId:Int)
+    fun deleteBaskets(productId:Int)
 
     @Query("SELECT * FROM product WHERE id=:productId")
     fun getProductById(productId: Int):BasketProductModelData?

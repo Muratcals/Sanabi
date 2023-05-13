@@ -56,7 +56,7 @@ interface RetrofitAPI {
     fun getOrder():Call<OrderProductModel>
 
     @POST("api/Order")
-    fun postNewOrder(@Body order:OrderProductModelItem):Call<OrderProductModelItem>
+    fun postNewOrder(@Body order:CreateOrderModel):Call<CreateOrderModel>
 
     @GET("api/Order/GetOrdersById")
     fun getOrderContent(@Query("selectId") id:Int):Call<OrderProductModel>

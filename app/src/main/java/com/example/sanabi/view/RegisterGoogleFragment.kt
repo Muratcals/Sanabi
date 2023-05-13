@@ -2,6 +2,7 @@ package com.example.sanabi.view
 
 import android.app.DatePickerDialog
 import android.icu.text.SimpleDateFormat
+import android.icu.util.Calendar
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +12,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.example.sanabi.Util.dateFormat
 import com.example.sanabi.databinding.FragmentRegisterGoogleBinding
 import com.example.sanabi.model.Data
 import com.example.sanabi.model.UserInformation
@@ -18,14 +20,13 @@ import com.example.sanabi.viewModel.RegisterGoogleViewModel
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import java.time.LocalDateTime
 
-import java.util.*
 
 class RegisterGoogleFragment : Fragment() {
 
 
     private lateinit var binding: FragmentRegisterGoogleBinding
     private lateinit var viewModel: RegisterGoogleViewModel
-    private lateinit var cal: Calendar
+        private lateinit var cal: Calendar
     private lateinit var eMail: String
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -53,7 +54,7 @@ class RegisterGoogleFragment : Fragment() {
                         cal.set(Calendar.YEAR, p1)
                         cal.set(Calendar.DAY_OF_MONTH, p3)
                         cal.set(Calendar.MONTH, p2)
-                        dateFormat()
+                       binding.googleCalendarText.dateFormat(cal)
                     }
                 }, now.year, now.monthValue - 1, now.dayOfMonth)
             datepickerlistener.show()
@@ -106,11 +107,5 @@ class RegisterGoogleFragment : Fragment() {
         } else {
             return false
         }
-    }
-
-    fun dateFormat() {
-        val format = SimpleDateFormat("dd-MM-yyyy")
-        val strDate: String = format.format(cal.getTime())
-        binding.googleCalendarText.setText(strDate)
     }
 }

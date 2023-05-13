@@ -92,14 +92,4 @@ class LastOrderContentViewModel : ViewModel() {
 
         })
     }
-
-    fun decimalFormet(double: Double): String {
-        val otherSymbol = DecimalFormatSymbols()
-        otherSymbol.decimalSeparator = ','
-        otherSymbol.groupingSeparator = '.'
-        val df = DecimalFormat("#.##")
-        df.decimalFormatSymbols = otherSymbol
-        df.roundingMode = RoundingMode.DOWN
-        return df.format(double)
-    }
 }

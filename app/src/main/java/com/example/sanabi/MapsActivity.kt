@@ -78,6 +78,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         }
     }
 
+    override fun onBackPressed() {
+        super.onBackPressed()
+    }
     fun getAddress(latLng: LatLng) {
         val geocoder = Geocoder(this)
         try {
@@ -178,7 +181,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         bottomSheetDialog.setContentView(dialogViewBinding.root)
         bottomSheetDialog.setCancelable(false)
         bottomSheetDialog.setOnCancelListener {
-            println("girdiker")
+            println("poqjwfelmksd")
         }
         bottomSheetDialog.show()
         dialogViewBinding.lastText.setText("${adress.subLocality} ${adress.thoroughfare} ${adress.subThoroughfare}")
@@ -254,8 +257,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             updateIcon(dialogViewBinding)
         }
     }
-
-
     fun updateIcon(viewBinding: SelectedAdressViewBinding) {
         if (homeTick == 1) {
             viewBinding.homeIcon.setBackgroundResource(R.drawable.circle_selected_shape)

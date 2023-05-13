@@ -8,6 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.sanabi.Adapter.LastOrderProductsRecycler
+import com.example.sanabi.R
+import com.example.sanabi.Util.decimalFormet
 import com.example.sanabi.databinding.FragmentLastOrderContentBinding
 import com.example.sanabi.viewModel.LastOrderContentViewModel
 
@@ -29,8 +31,11 @@ class LastOrderContentFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(LastOrderContentViewModel::class.java)
-        viewModel.getLastOrder(5)
+       arguments?.let {
+           val id =it.getInt("orderId")
+           viewModel = ViewModelProvider(this).get(LastOrderContentViewModel::class.java)
+           viewModel.getLastOrder(id)
+       }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -43,8 +48,15 @@ class LastOrderContentFragment : Fragment() {
             for (items in it[0]._Products){
                sumPrice+=(items.productQuantity*items.product.price)
             }
-            binding.lastOrderProductPrice.setText(sumPrice.toString())
-            binding.lastOrderSumprice.setText((sumPrice+transferPrice).toString())
+            binding.lastOrderProductPrice.decimalFormet(sumPrice)
+            if (it[0].paymentTypeId==1){
+                binding.paymentMethodImage.setImageResource(R.drawable.card_black_icon)
+            }else{
+                binding.paymentMethodImage.setImageResource(R.drawable.purse_black_icon)
+            }
+            binding.paymentMethodPrice.decimalFormet(sumPrice+transferPrice)
+            binding.paymentMethodName.setText(it[0].paymentType.typeName)
+            binding.lastOrderSumprice.decimalFormet((sumPrice+transferPrice))
         }
         viewModel.progress.observe(viewLifecycleOwner){
             if (it){

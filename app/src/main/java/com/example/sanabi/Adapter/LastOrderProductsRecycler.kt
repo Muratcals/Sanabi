@@ -7,6 +7,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.sanabi.LastOrderModel.Product
 import com.example.sanabi.R
+import com.example.sanabi.Util.decimalFormet
 import com.example.sanabi.viewModel.LastOrderContentViewModel
 
 class LastOrderProductsRecycler(var orderList: List<Product>, val viewModel:LastOrderContentViewModel) :
@@ -32,7 +33,7 @@ class LastOrderProductsRecycler(var orderList: List<Product>, val viewModel:Last
         holder.paymentProductName.setText("${orderList[position].product.name}")
         for (items in orderList){
             val productSumPrice = orderList[position].product.price * orderList[position].productQuantity
-            holder.paymentProductPrice.setText("${viewModel.decimalFormet(productSumPrice)} TL")
+            holder.paymentProductPrice.decimalFormet(productSumPrice)
         }
     }
 }

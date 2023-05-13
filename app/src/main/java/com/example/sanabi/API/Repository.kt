@@ -55,7 +55,7 @@ class Repository {
         return APIServices().RetrofitServices().getOrderContent(id)
     }
 
-    fun postNewOrder(order: OrderProductModelItem):Call<OrderProductModelItem>{
+    fun postNewOrder(order: CreateOrderModel):Call<CreateOrderModel>{
         return APIServices().RetrofitServices().postNewOrder(order)
     }
 

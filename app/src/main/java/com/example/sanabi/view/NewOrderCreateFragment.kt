@@ -45,7 +45,6 @@ class NewOrderCreateFragment : Fragment() {
         OrderSaysProductRecycler(arrayListOf(), viewModel)
     }
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -78,7 +77,6 @@ class NewOrderCreateFragment : Fragment() {
             binding.orderSumPrice.setText("Toplam Tutar :${viewModel.decimalFormet(subtotal)}")
             orderCompleteControl()
         }.launchIn(viewLifecycleOwner.lifecycleScope)
-
         viewModel.saysItems.observe(viewLifecycleOwner) {
             saysProductAdapter.updateData(it)
         }

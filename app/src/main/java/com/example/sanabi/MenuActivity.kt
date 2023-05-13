@@ -32,9 +32,7 @@ class MenuActivity : AppCompatActivity() {
         }
         else if (incoming.equals("address")){
             binding.menuToolbar.toolbarText.setText("Adreslerim")
-            supportFragmentManager.commit {
-                this.replace(R.id.fragmentContainerView2,AddressFragment())
-            }
+            findNavController(R.id.fragmentContainerView2).setGraph(R.navigation.address_grapht)
         }
         binding.menuToolbar.quit.setOnClickListener {
             onBackPressed()

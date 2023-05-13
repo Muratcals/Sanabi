@@ -27,8 +27,8 @@ class LastOrderViewModel : ViewModel() {
     val customerOrderList = MutableLiveData<OrderProductModel>()
     val repository = Repository()
 
-    fun getCustomerOrders() {
-        val customerOrders = repository.getCustomerOrders(1)
+    fun getCustomerOrders(id:Int) {
+        val customerOrders = repository.getCustomerOrders(id)
         customerOrders.enqueue(object : Callback<OrderProductModel> {
             override fun onResponse(
                 call: Call<OrderProductModel>,
@@ -42,7 +42,6 @@ class LastOrderViewModel : ViewModel() {
             override fun onFailure(call: Call<OrderProductModel>, t: Throwable) {
                 println(t.localizedMessage)
             }
-
         })
     }
 

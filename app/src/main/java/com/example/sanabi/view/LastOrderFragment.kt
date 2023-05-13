@@ -11,6 +11,7 @@ import com.example.sanabi.Adapter.LastOrderProductsRecycler
 import com.example.sanabi.Adapter.LastOrdersRecycler
 import com.example.sanabi.LastOrderModel.OrderProductModel
 import com.example.sanabi.R
+import com.example.sanabi.Util.util
 import com.example.sanabi.databinding.FragmentLastOrderBinding
 import com.example.sanabi.databinding.LastOrderViewBinding
 import com.example.sanabi.viewModel.LastOrderViewModel
@@ -32,7 +33,7 @@ class LastOrderFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = ViewModelProvider(this).get(LastOrderViewModel::class.java)
-        viewModel.getCustomerOrders()
+        viewModel.getCustomerOrders(util.customerId)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

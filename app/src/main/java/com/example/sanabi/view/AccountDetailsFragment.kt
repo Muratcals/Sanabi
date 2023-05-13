@@ -13,6 +13,7 @@ import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.sanabi.R
+import com.example.sanabi.Util.dateFormat
 import com.example.sanabi.Util.util
 import com.example.sanabi.databinding.FragmentAccountDetailsBinding
 import com.example.sanabi.model.Data
@@ -142,7 +143,7 @@ class AccountDetailsFragment : Fragment() {
                 requireContext(),
                 { datePicker, i, i2, i3 ->
                     cal.set(i, i2, i3)
-                    dateFormat()
+                    binding.lastText.dateFormat(cal)
                 },
                 local.year,
                 local.month.value,
@@ -180,11 +181,7 @@ class AccountDetailsFragment : Fragment() {
                 && viewModel.numberControl.value == true && binding.lastText.text!!.isNotEmpty())
     }
 
-    fun dateFormat() {
-        val format = SimpleDateFormat("dd-MM-yyyy")
-        val strDate: String = format.format(cal.getTime())
-        binding.lastText.setText(strDate)
-    }
+
 
     fun updateData(incoming: String) {
         when (incoming) {

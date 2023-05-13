@@ -118,7 +118,7 @@ class CategoryContentProductShowRecycler(
         }
         holder.viewBinProduct.setOnClickListener {
             MainScope().launch(Dispatchers.IO) {
-                holder.database.deleteAllBaskets(productsItem.data.products[position].id)
+                holder.database.deleteBaskets(productsItem.data.products[position].id)
                 activity.runOnUiThread {
                     holder.viewAmountText.setText("0")
                     count.cancel()

@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.sanabi.R
+import com.example.sanabi.Util.decimalFormet
 import com.example.sanabi.model.BasketProductModelData
 import com.example.sanabi.viewModel.OrderPaymentViewModel
 
@@ -27,7 +28,7 @@ class OrderPaymentProductRecycler(var orderList:ArrayList<BasketProductModelData
     override fun onBindViewHolder(holder: PaymentProductVH, position: Int) {
         holder.paymentProductName.setText("${orderList[position].amount}x ${orderList[position].name}")
         val productSumPrice=orderList[position].price * orderList[position].amount
-        holder.paymentProductPrice.setText("${viewModelOrderPaymentViewModel.decimalFormet(productSumPrice)} TL")
+        holder.paymentProductPrice.decimalFormet(productSumPrice)
     }
 
     fun updateData(list:List<BasketProductModelData>){

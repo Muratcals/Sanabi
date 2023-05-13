@@ -33,11 +33,10 @@ class MainAddressControlRecycler(var addressList:AddressModel):RecyclerView.Adap
         holder.openAddressDetails.setText("${addressList.data[position].districte} ${addressList.data[position].street} ${addressList.data[position].buildingNo}")
         holder.radioButton.setOnClickListener {
             update(addressList.data[position].id)
-
         }
     }
     fun update(id:Int){
-        println(id)
+        println(selectedAdress)
         selectedAdress=id
         println(selectedAdress)
         notifyDataSetChanged()

@@ -3,6 +3,7 @@ package com.example.sanabi
 import android.app.ActionBar.LayoutParams
 import android.app.Dialog
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
@@ -90,13 +91,7 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
                 R.id.exit->{
-                    googleSingIn=GoogleSignIn.getClient(applicationContext,util.gso)
-                    googleSingIn.signOut()
-                    util.auth.signOut()
-                    val intentsSplash =Intent(this,SplashActivity::class.java)
-                    intentsSplash.putExtra("incoming","exit")
-                    startActivity(intentsSplash)
-                    this.finish()
+                    exitDialog()
                     true
                 }
                 else -> false
@@ -108,6 +103,31 @@ class MainActivity : AppCompatActivity() {
             intent.putExtra("incoming", "main")
             startActivity(intent)
         }
+
+        binding.toolbar.root.setOnClickListener {
+            selectedAdressDialog()
+        }
+    }
+
+    fun exitDialog(){
+        val alertDialog=android.app.AlertDialog.Builder(this)
+        val dialog =alertDialog.create()
+        alertDialog.setTitle("Çıkış yap")
+        alertDialog.setMessage("Çıkış yapmak istediğinize emin misiniz ?")
+        alertDialog.setPositiveButton("Evet",DialogInterface.OnClickListener { dialogInterface, i ->
+            googleSingIn=GoogleSignIn.getClient(applicationContext,util.gso)
+            googleSingIn.signOut()
+            util.auth.signOut()
+            val intentsSplash =Intent(this,SplashActivity::class.java)
+            intentsSplash.putExtra("incoming","exit")
+            startActivity(intentsSplash)
+            this.finish()
+            dialog.cancel()
+        })
+        alertDialog.setNegativeButton("Hayır",DialogInterface.OnClickListener { dialogInterface, i ->
+            dialog.cancel()
+        })
+        alertDialog.show()
     }
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (toogle.onOptionsItemSelected(item)) {

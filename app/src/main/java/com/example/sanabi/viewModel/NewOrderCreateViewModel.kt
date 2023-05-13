@@ -91,7 +91,7 @@ class NewOrderCreateViewModel : ViewModel() {
     }
     fun deleteOrder(id: Int) {
         viewModelScope.launch(Dispatchers.IO) {
-            db.roomDb().deleteAllBaskets(id)
+            db.roomDb().deleteBaskets(id)
         }
     }
 }

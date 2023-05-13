@@ -1,21 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="fill_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginHorizontal="@dimen/_5sdp"
-    android:layout_marginVertical="@dimen/_10sdp"
-    android:orientation="vertical">
+    android:layout_marginVertical="@dimen/_5sdp"
+    android:orientation="vertical"
+    android:background="@drawable/product_view_shape">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:id="@+id/orderDetailsLayout">
 
         <ImageView
             android:id="@+id/marketIcon"
-            android:layout_width="@dimen/_80sdp"
-            android:layout_height="@dimen/_80sdp"
+            android:layout_width="@dimen/_60sdp"
+            android:layout_height="@dimen/_60sdp"
             android:layout_marginStart="@dimen/_10sdp"
             android:layout_marginTop="@dimen/_10sdp"
             android:src="@drawable/sanabi_banner" />
@@ -25,7 +28,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <LinearLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -33,19 +36,21 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
                     <TextView
                         android:id="@+id/marketName"
-                        android:layout_width="@dimen/_120sdp"
+                        android:layout_width="@dimen/_150sdp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/_10sdp"
-                        android:layout_marginTop="@dimen/_10sdp"
-                        android:fontFamily="sans-serif-black"
+                        android:fontFamily="@font/arial"
                         android:maxLines="2"
                         android:text="Yemeksepeti market"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/_13ssp"
+                        android:textSize="@dimen/_12ssp"
                         android:textStyle="bold" />
 
                     <TextView
@@ -64,23 +69,25 @@
                     android:id="@+id/price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_10sdp"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:fontFamily="sans-serif-black"
+                    android:layout_marginEnd="16dp"
+                    android:fontFamily="@font/arial"
                     android:text="112,50 TL"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/_16ssp"
-                    android:textStyle="bold" />
-            </LinearLayout>
+                    android:textSize="@dimen/_12ssp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <TextView
                 android:id="@+id/lastOrderContent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/_10sdp"
+                android:layout_marginStart="@dimen/_10sdp"
                 android:layout_marginTop="@dimen/_5sdp"
                 android:fontFamily="@font/arial"
-                android:text="İçerik"
+                android:text="içerik"
+                android:maxLines="2"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_11ssp"
                 android:textStyle="bold" />
