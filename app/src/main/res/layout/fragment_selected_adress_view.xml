@@ -1,40 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#EBEBEB"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".view.SelectedAdressViewFragment">
 
-    <ImageView
+    <ScrollView
+        android:id="@+id/scrollView6"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:src="@drawable/minus" />
-
-    <androidx.core.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/_10sdp"
-                android:fontFamily="@font/arial"
-                android:text="Yeni adres ekle"
-                android:textColor="@color/black"
-                android:textSize="@dimen/_17ssp"
-                android:textStyle="bold" />
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/_10sdp"
-                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_20sdp"
                 android:orientation="horizontal">
 
                 <ImageView
@@ -93,8 +86,8 @@
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/districteText"
                             android:layout_width="match_parent"
-                            android:background="@drawable/edittest_shape"
                             android:layout_height="wrap_content"
+                            android:background="@drawable/edittest_shape"
                             android:fontFamily="@font/arial"
                             android:textColor="@color/black"
                             android:textSize="@dimen/_13sdp" />
@@ -114,7 +107,7 @@
                             android:background="@drawable/edittest_shape"
                             android:fontFamily="@font/arial"
                             android:textColor="@color/black"
-                            android:textSize="@dimen/_13sdp"/>
+                            android:textSize="@dimen/_13sdp" />
                     </com.google.android.material.textfield.TextInputLayout>
                 </LinearLayout>
 
@@ -135,9 +128,9 @@
                             android:id="@+id/streetText"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:background="@drawable/edittest_shape"
                             android:fontFamily="@font/arial"
                             android:textColor="@color/black"
-                            android:background="@drawable/edittest_shape"
                             android:textSize="@dimen/_13sdp" />
                     </com.google.android.material.textfield.TextInputLayout>
                 </LinearLayout>
@@ -159,11 +152,11 @@
                             android:id="@+id/buildingNoText"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/arial"
-                            android:textColor="@color/black"
                             android:background="@drawable/edittest_shape"
-                            android:textSize="@dimen/_13sdp"
-                            android:inputType="number"/>
+                            android:fontFamily="@font/arial"
+                            android:inputType="number"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_13sdp" />
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
@@ -177,11 +170,11 @@
                             android:id="@+id/postCode"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/arial"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/_13sdp"
                             android:background="@drawable/edittest_shape"
-                            android:inputType="number"/>
+                            android:fontFamily="@font/arial"
+                            android:inputType="number"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_13sdp" />
                     </com.google.android.material.textfield.TextInputLayout>
                 </LinearLayout>
 
@@ -204,9 +197,9 @@
                             android:layout_height="wrap_content"
                             android:background="@drawable/edittest_shape"
                             android:fontFamily="@font/arial"
+                            android:inputType="number"
                             android:textColor="@color/black"
-                            android:textSize="@dimen/_13sdp"
-                            android:inputType="number"/>
+                            android:textSize="@dimen/_13sdp" />
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
@@ -222,9 +215,9 @@
                             android:layout_height="wrap_content"
                             android:background="@drawable/edittest_shape"
                             android:fontFamily="@font/arial"
+                            android:inputType="number"
                             android:textColor="@color/black"
-                            android:textSize="@dimen/_13sdp"
-                            android:inputType="number"/>
+                            android:textSize="@dimen/_13sdp" />
                     </com.google.android.material.textfield.TextInputLayout>
                 </LinearLayout>
 
@@ -246,10 +239,10 @@
                         <com.google.android.material.textfield.TextInputEditText
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/arial"
-                            android:enabled="false"
                             android:background="@drawable/edittest_shape"
                             android:clickable="false"
+                            android:enabled="false"
+                            android:fontFamily="@font/arial"
                             android:text="+90"
                             android:textColor="@color/black"
                             android:textSize="@dimen/_13sdp" />
@@ -269,9 +262,9 @@
                             android:layout_height="wrap_content"
                             android:background="@drawable/edittest_shape"
                             android:fontFamily="@font/arial"
-                            android:textColor="@color/black"
                             android:inputType="number"
                             android:maxLength="10"
+                            android:textColor="@color/black"
                             android:textSize="@dimen/_13sdp" />
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -287,6 +280,7 @@
                     android:textColor="@color/black"
                     android:textSize="@dimen/_15ssp"
                     android:textStyle="bold" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -301,15 +295,15 @@
                     android:id="@+id/addresDetails"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:theme="@style/ThemeOverlay.Material3.TextInputEditText.OutlinedBox.Dense"
+                    android:layout_marginHorizontal="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:background="@drawable/edittest_shape"
+                    android:gravity="center_vertical"
                     android:hint="Lütfen zili çalmayın(Örn)"
                     android:inputType="text"
-                    android:background="@drawable/edittest_shape"
-                    android:layout_marginHorizontal="@dimen/_10sdp"
-                    android:gravity="center_vertical"
-                    android:textSize="@dimen/_12ssp"
                     android:textColor="@color/black"
-                    android:layout_marginTop="@dimen/_10sdp"/>
+                    android:textSize="@dimen/_12ssp"
+                    android:theme="@style/ThemeOverlay.Material3.TextInputEditText.OutlinedBox.Dense" />
 
 
                 <TextView
@@ -404,23 +398,22 @@
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
+
             <Button
-            android:id="@+id/save"
-            android:layout_width="fill_parent"
-            android:layout_height="@dimen/_35sdp"
-            android:layout_gravity="bottom"
-            android:layout_marginHorizontal="@dimen/_15sdp"
-            android:layout_marginTop="@dimen/_15sdp"
-            android:layout_marginBottom="@dimen/_15sdp"
-            android:background="@drawable/next_button_shape"
-            android:clickable="false"
-            android:fontFamily="@font/arial"
-            android:text="Devam et"
-            android:textColor="@color/white"
-            android:textStyle="bold"
-            app:backgroundTint="@null" />
+                android:id="@+id/save"
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/_35sdp"
+                android:layout_gravity="bottom"
+                android:layout_marginHorizontal="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:layout_marginBottom="@dimen/_15sdp"
+                android:background="@drawable/next_button_shape"
+                android:clickable="false"
+                android:fontFamily="@font/arial"
+                android:text="Devam et"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                app:backgroundTint="@null" />
         </LinearLayout>
-    </androidx.core.widget.NestedScrollView>
-
-
-</LinearLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

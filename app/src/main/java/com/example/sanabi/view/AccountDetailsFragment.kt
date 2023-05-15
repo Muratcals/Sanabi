@@ -8,6 +8,7 @@ import android.text.InputType
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
@@ -189,41 +190,54 @@ class AccountDetailsFragment : Fragment() {
                 viewModel.updatePassword(requireActivity() as AppCompatActivity, binding.lastText.text.toString())
             }
             "name" -> {
-                val newData = Data(
-                    "",
-                    LocalDate.now().toString(),
-                    util.customerId,
-                    userData.mail,
-                    binding.lastText.text.toString(),
-                    userData.numberPhone,
-                    binding.secTex.text.toString()
-                )
-                viewModel.updateUser(requireActivity() as AppCompatActivity,newData)
+                if (binding.lastText.text?.isNotEmpty() == true && binding.secTex.text?.isNotEmpty() == true ){
+                    val newData = Data(
+                        "",
+                        LocalDate.now().toString(),
+                        util.customerId,
+                        userData.mail,
+                        binding.lastText.text.toString(),
+                        userData.numberPhone,
+                        binding.secTex.text.toString()
+                    )
+                    viewModel.updateUser(requireActivity() as AppCompatActivity,newData)
+                }else{
+                    Toast.makeText(requireContext(), "Bütün alanları eksiksiz doldurunuz", Toast.LENGTH_SHORT).show()
+                }
             }
             "birthDate" -> {
-                val date =binding.lastText.text.toString()
-                val newData = Data(
-                    date,
-                    "",
-                    util.customerId,
-                    userData.mail,
-                    userData.name,
-                    userData.numberPhone,
-                    userData.surname
-                )
-                viewModel.updateUser(requireActivity() as AppCompatActivity,newData)
+                if (binding.lastText.text?.isNotEmpty() == true){
+                    val date =binding.lastText.text.toString()
+                    val newData = Data(
+                        date,
+                        "",
+                        util.customerId,
+                        userData.mail,
+                        userData.name,
+                        userData.numberPhone,
+                        userData.surname
+                    )
+                    viewModel.updateUser(requireActivity() as AppCompatActivity,newData)
+                }else{
+                    Toast.makeText(requireContext(), "Bütün alanları eksiksiz doldurunuz", Toast.LENGTH_SHORT).show()
+                }
+
             }
             "numberPhone" -> {
-                val newData = Data(
-                    userData.birtDate,
-                    "",
-                    util.customerId,
-                    userData.mail,
-                    userData.name,
-                    binding.lastText.text.toString(),
-                    userData.surname
-                )
-                viewModel.updateUser(requireActivity() as AppCompatActivity,newData)
+                if (binding.lastText.text?.isNotEmpty() == true && binding.secTex.text?.isNotEmpty() == true ){
+                    val newData = Data(
+                        userData.birtDate,
+                        "",
+                        util.customerId,
+                        userData.mail,
+                        userData.name,
+                        binding.lastText.text.toString(),
+                        userData.surname
+                    )
+                    viewModel.updateUser(requireActivity() as AppCompatActivity,newData)
+                }else{
+                    Toast.makeText(requireContext(), "Bütün alanları eksiksiz doldurunuz", Toast.LENGTH_SHORT).show()
+                }
             }
         }
     }

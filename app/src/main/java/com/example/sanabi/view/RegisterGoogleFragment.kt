@@ -23,7 +23,6 @@ import java.time.LocalDateTime
 
 class RegisterGoogleFragment : Fragment() {
 
-
     private lateinit var binding: FragmentRegisterGoogleBinding
     private lateinit var viewModel: RegisterGoogleViewModel
         private lateinit var cal: Calendar
@@ -45,6 +44,15 @@ class RegisterGoogleFragment : Fragment() {
             binding.googleNameText.setText(account.displayName)
             binding.googlemailText.setText(account.email)
             binding.googleLastNameText.setText(account.familyName)
+        }
+        viewModel.progress.observe(viewLifecycleOwner){
+            if (it) {
+                binding.googleProgress.visibility=View.VISIBLE
+                binding.scrollView2.alpha=0.3F
+            }else{
+                binding.googleProgress.visibility=View.INVISIBLE
+                binding.scrollView2.alpha=1F
+            }
         }
         binding.googleCalendar.setEndIconOnClickListener {
             val now = LocalDateTime.now()
@@ -86,7 +94,7 @@ class RegisterGoogleFragment : Fragment() {
                 )
             )
             val user = UserInformation(data, null)
-            viewModel.postData(binding.googlemailText.text.toString(),requireActivity() as AppCompatActivity, user.data[0])
+            viewModel.postData(requireActivity() as AppCompatActivity, user.data[0])
         }
     }
 

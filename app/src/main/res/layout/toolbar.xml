@@ -34,10 +34,11 @@
                 android:fontFamily="@font/arial" />
         </LinearLayout>
         <ImageView
+            android:id="@+id/mainBasketIcon"
             android:layout_gravity="end"
             android:layout_width="@dimen/_20sdp"
             android:layout_height="@dimen/_20sdp"
-            android:src="@drawable/basket_icon"
+            android:src="@drawable/basket_icon_white"
             android:layout_marginEnd="@dimen/_20sdp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

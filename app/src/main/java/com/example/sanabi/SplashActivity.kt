@@ -31,10 +31,10 @@ class SplashActivity : AppCompatActivity() {
         binding=ActivitySplashBinding.inflate(layoutInflater)
         setContentView(binding.root)
         googleSignIn=GoogleSignIn.getClient(applicationContext,util.gso)
-        val textAnim=AnimationUtils.loadAnimation(applicationContext,R.anim.splas_animation)
-        binding.splashText.startAnimation(textAnim)
         val incoming =intent.getStringExtra("incoming")
         if (incoming==null){
+            val textAnim=AnimationUtils.loadAnimation(applicationContext,R.anim.splas_animation)
+            binding.splashText.startAnimation(textAnim)
             object:CountDownTimer(4000,1000){
                 override fun onTick(p0: Long) {
                     if (p0.toInt()<2000 && binding.splashText.isVisible){
@@ -83,17 +83,9 @@ class SplashActivity : AppCompatActivity() {
 
     fun internetControl(): Boolean {
         val connectivityManager=applicationContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        if (Build.VERSION.SDK_INT>=23){
-            val networkCapabilities= connectivityManager.activeNetwork?: return false
-            val actNw=connectivityManager.getNetworkCapabilities(networkCapabilities) ?: return false
-            return actNw.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
-        }else{
-            val activityNetworkInfo =connectivityManager.activeNetworkInfo
-            if (activityNetworkInfo!=null && activityNetworkInfo.isConnected){
-                return true
-            }
-        }
-        return false
+        val networkCapabilities= connectivityManager.activeNetwork?: return false
+        val actNw=connectivityManager.getNetworkCapabilities(networkCapabilities) ?: return false
+        return actNw.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -111,9 +103,18 @@ class SplashActivity : AppCompatActivity() {
 
     fun authInformation(account:GoogleSignInAccount){
         val intent =Intent(this,LoginActivity::class.java)
-        val bundle = bundleOf("account" to account)
-        intent.putExtra("account",bundle)
-        intent.putExtra("coming","Google")
-        startActivity(intent)
+        util.auth.fetchSignInMethodsForEmail(account.email.toString()).addOnSuccessListener {
+            if (it.signInMethods?.isNotEmpty()==true && it!=null){
+                if (it.signInMethods!![0].toString().equals("password")){
+                    Toast.makeText(applicationContext, "Bu mail adresi şifre ile giriş yapmıştır. Şifre ile giriş yapmayı deneyiniz.", Toast.LENGTH_SHORT).show()
+                    googleSignIn.signOut()
+                }
+            }else{
+                val bundle = bundleOf("account" to account)
+                intent.putExtra("account",bundle)
+                intent.putExtra("coming","Google")
+                startActivity(intent)
+            }
+        }
     }
 }

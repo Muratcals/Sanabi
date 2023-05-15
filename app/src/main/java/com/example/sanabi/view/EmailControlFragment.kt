@@ -33,8 +33,7 @@ class EmailControlFragment : Fragment() {
         binding.nextButton.setOnClickListener {
             if (binding.eMail.text.isNotEmpty()){
                 observerItem()
-                viewModel.getData(view,binding.eMail.text.toString())
-
+                viewModel.getData(requireActivity(),binding.eMail.text.toString())
             }else{
                 Toast.makeText(requireContext(), "Lütfen e posta adresinizi giriniz", Toast.LENGTH_SHORT).show()
             }
@@ -42,7 +41,7 @@ class EmailControlFragment : Fragment() {
         binding.nextText.setOnClickListener {
             if (binding.eMail.text.isNotEmpty()){
                 observerItem()
-                viewModel.getData(view,binding.eMail.text.toString())
+                viewModel.getData(requireActivity(),binding.eMail.text.toString())
 
             }else{
                 Toast.makeText(requireContext(), "Lütfen e posta adresinizi giriniz", Toast.LENGTH_SHORT).show()

@@ -24,5 +24,18 @@
         <argument
             android:name="productPrice"
             android:defaultValue="0.0" />
+        <action
+            android:id="@+id/action_orderPaymentFragment_to_selectedAdressViewFragment2"
+            app:destination="@id/selectedAdressViewFragment2"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/selectedAdressViewFragment2"
+        android:name="com.example.sanabi.view.SelectedAdressViewFragment"
+        android:label="fragment_selected_adress_view"
+        tools:layout="@layout/fragment_selected_adress_view" >
+        <argument android:name="addressId"
+            app:argType="integer" />
     </fragment>
 </navigation>

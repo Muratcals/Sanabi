@@ -66,6 +66,9 @@ class Repository {
     fun getAllPaymentType():Call<PaymentTypeModel>{
         return APIServices().RetrofitServices().getAllPaymentType()
     }
+    fun deleteCustomer(id:Int):Call<Data>{
+        return APIServices().RetrofitServices().deleteCustomer(id)
+    }
 
     fun getPaymentType(id:Int):Call<GetPaymentType>{
         return APIServices().RetrofitServices().getPaymentType(id)

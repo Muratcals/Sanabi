@@ -107,6 +107,10 @@ class MainActivity : AppCompatActivity() {
         binding.toolbar.root.setOnClickListener {
             selectedAdressDialog()
         }
+        binding.toolbar.mainBasketIcon.setOnClickListener {
+            val intent =Intent(applicationContext,OrderActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     fun exitDialog(){
@@ -135,7 +139,6 @@ class MainActivity : AppCompatActivity() {
         }
         return false
     }
-
     fun getFindById() {
         binding.mainLayout.alpha=0.3f
         binding.market.isEnabled=false
@@ -182,22 +185,7 @@ class MainActivity : AppCompatActivity() {
         dialog.setCancelable(false)
         dialog.show()
         dialog.setContentView(view.root)
-        val addressList = repository.getSelectedAddress(util.customerId)
-        addressAdapter = MainAddressControlRecycler(AddressModel(arrayListOf(), ""))
-        addressList.enqueue(object : Callback<AddressModel> {
-            override fun onResponse(call: Call<AddressModel>, response: Response<AddressModel>) {
-                if (response.isSuccessful) {
-                    addressAdapter.updateData(response.body()!!)
-                    view.customerAddressRecycler.adapter = addressAdapter
-                    view.customerAddressRecycler.layoutManager =
-                        LinearLayoutManager(applicationContext)
-                }
-            }
-
-            override fun onFailure(call: Call<AddressModel>, t: Throwable) {
-                println(t.localizedMessage)
-            }
-        })
+        getAddressInformation(view)
         view.successLocation.setOnClickListener {
             sharedPreferences = getSharedPreferences("AddressId", Context.MODE_PRIVATE)
             val editor = sharedPreferences.edit()
@@ -211,6 +199,28 @@ class MainActivity : AppCompatActivity() {
             }
             println(sharedPreferences.getInt("addressId", 0))
         }
+        view.newAddressLayout.setOnClickListener {
+            val intent =Intent(applicationContext,MapsActivity::class.java)
+            intent.putExtra("incoming","main")
+            startActivity(intent)
+        }
+    }
+    fun getAddressInformation(view: SelectedAdressDialogRecyclerBinding){
+        val addressList = repository.getSelectedAddress(util.customerId)
+        addressAdapter = MainAddressControlRecycler(AddressModel(arrayListOf(), ""))
+        addressList.enqueue(object : Callback<AddressModel> {
+            override fun onResponse(call: Call<AddressModel>, response: Response<AddressModel>) {
+                if (response.isSuccessful) {
+                    addressAdapter.updateData(response.body()!!)
+                    view.customerAddressRecycler.adapter = addressAdapter
+                    view.customerAddressRecycler.layoutManager =
+                        LinearLayoutManager(applicationContext)
+                }
+            }
+            override fun onFailure(call: Call<AddressModel>, t: Throwable) {
+                println(t.localizedMessage)
+            }
+        })
     }
 
     fun toolbarAddresUpdate(){
@@ -225,7 +235,6 @@ class MainActivity : AppCompatActivity() {
             override fun onFailure(call: Call<GetAddressModel>, t: Throwable) {
                 println(t.localizedMessage)
             }
-
         })
     }
 }

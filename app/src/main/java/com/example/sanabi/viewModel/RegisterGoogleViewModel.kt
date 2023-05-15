@@ -5,6 +5,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat.startActivity
 import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.sanabi.API.Repository
@@ -20,22 +21,21 @@ import retrofit2.Response
 
 class RegisterGoogleViewModel : ViewModel() {
 
+    val progress =MutableLiveData<Boolean>()
     val repository = Repository()
-    fun postData(eMail: String, activity: AppCompatActivity, userInformation: Data) {
+    fun postData(activity: AppCompatActivity, userInformation: Data) {
+        progress.value=true
         val result = repository.postUserData(userInformation)
         result.enqueue(object : Callback<Data> {
             override fun onResponse(call: Call<Data>, response: Response<Data>) {
-                saveDatabase(activity, eMail)
+                save(activity)
             }
-
             override fun onFailure(call: Call<Data>, t: Throwable) {
                 Toast.makeText(
                     activity.applicationContext.applicationContext,
                     t.localizedMessage,
                     Toast.LENGTH_SHORT
                 ).show()
-                println(t.localizedMessage.toString())
-
             }
 
         })
@@ -47,6 +47,7 @@ class RegisterGoogleViewModel : ViewModel() {
         val credential =
             GoogleAuthProvider.getCredential(googleSignIn.silentSignIn().result.idToken, null)
         util.auth.signInWithCredential(credential).addOnSuccessListener {
+            progress.value=false
             val intent = Intent(activity, MainActivity::class.java)
             activity.startActivity(intent)
             activity.finish()

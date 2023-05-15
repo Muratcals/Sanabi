@@ -67,7 +67,7 @@ class RegisterViewModel : ViewModel() {
             result.enqueue(object:Callback<Data>{
                 override fun onResponse(call: Call<Data>, response: Response<Data>) {
                     util.auth.createUserWithEmailAndPassword(userInformation.mail,password).addOnSuccessListener {
-                        saveDatabase(activity,userInformation.mail)
+                        //saveDatabase(activity,userInformation.mail)
                     }
                 }
 

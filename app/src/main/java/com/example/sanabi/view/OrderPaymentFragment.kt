@@ -11,10 +11,12 @@ import android.widget.Button
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.sanabi.API.Repository
 import com.example.sanabi.Adapter.MainAddressControlRecycler
@@ -48,9 +50,6 @@ class OrderPaymentFragment : Fragment() {
     private lateinit var sharedPreferences: SharedPreferences
     val repository = Repository()
     var name = ""
-    var jobTick = 0
-    var homeTick = 0
-    var partnerTick = 0
     val transferPrice = 15.25
 
     override fun onCreateView(
@@ -108,7 +107,10 @@ class OrderPaymentFragment : Fragment() {
                 selectedPaymentDialog()
             }
             binding.addressDetailsUpdate.setOnClickListener {
-                viewModel.addressInformation.value?.data?.let { it1 -> textAdress(it1) }
+                viewModel.addressInformation.value?.data?.let {
+                val bundle = bundleOf("addressId" to it.id)
+                    findNavController().navigate(R.id.action_orderPaymentFragment_to_selectedAdressViewFragment2,bundle)
+                }
             }
             binding.paymentAddressEditButton.setOnClickListener {
                 selectedAdressDialog()
@@ -248,163 +250,6 @@ class OrderPaymentFragment : Fragment() {
                 dialog.cancel()
             }
             viewModel.getAddress(sharedPreferences.getInt("addressId", 0))
-        }
-    }
-
-    fun textAdress(adress: AddressData) {
-        val bottomSheetDialog = BottomSheetDialog(requireContext())
-        val layoutInflater = LayoutInflater.from(requireContext())
-        val dialogViewBinding = SelectedAdressViewBinding.inflate(layoutInflater)
-        bottomSheetDialog.setContentView(dialogViewBinding.root)
-        bottomSheetDialog.setCancelable(false)
-        bottomSheetDialog.show()
-        dialogViewBinding.lastText.setText("${adress.neighbourhood} ${adress.street} ${adress.buildingNo}")
-        dialogViewBinding.secText.setText("${adress.districte} ${adress.province ?: "İstanbul"} ${adress.postCode}")
-        dialogViewBinding.postCode.setText(adress.postCode.toString())
-        dialogViewBinding.neighbourhoodText.setText(adress.neighbourhood)
-        dialogViewBinding.districteText.setText(adress.districte)
-        dialogViewBinding.buildingNoText.setText(adress.buildingNo.toString())
-        dialogViewBinding.streetText.setText(adress.street)
-        dialogViewBinding.apartmentNumberText.setText(adress.apartmentNumber.toString())
-        dialogViewBinding.phoneNumberText.setText(adress.numberPhone)
-        dialogViewBinding.addresDetails.setText(adress.adressDetails)
-        if (adress.name.equals("Ev")) {
-            jobTick = 0
-            homeTick = 1
-            partnerTick = 0
-        } else if (adress.name.equals("İş")) {
-            jobTick = 1
-            homeTick = 0
-            partnerTick = 0
-        } else if (adress.name.equals("Eş")) {
-            jobTick = 0
-            homeTick = 0
-            partnerTick = 1
-        }
-        updateIcon(dialogViewBinding)
-        dialogViewBinding.save.setOnClickListener {
-            if (dialogViewBinding.postCode.text!!.isNotEmpty() && dialogViewBinding.apartmentNumberText.text!!.isNotEmpty()
-                && dialogViewBinding.districteText.text!!.isNotEmpty() && dialogViewBinding.buildingNoText.text!!.isNotEmpty()
-                && dialogViewBinding.neighbourhoodText.text!!.isNotEmpty() && dialogViewBinding.streetText.text!!.isNotEmpty()
-                && dialogViewBinding.addresDetails.text!!.isNotEmpty() && dialogViewBinding.phoneNumberText.text!!.isNotEmpty()
-            ) {
-                val apartmentNumber =
-                    Integer.parseInt(dialogViewBinding.apartmentNumberText.text.toString())
-                val address =
-                    AddressData(
-                        apartmentNumber,
-                        dialogViewBinding.buildingNoText.text.toString().toInt(),
-                        "${adress.createDate}",
-                        util.customerId,
-                        dialogViewBinding.districteText.text.toString(),
-                        adress.id,
-                        name,
-                        dialogViewBinding.neighbourhoodText.text.toString(),
-                        dialogViewBinding.postCode.text.toString().toInt(),
-                        "İstanbul",
-                        dialogViewBinding.streetText.text.toString(),
-                        dialogViewBinding.addresDetails.text.toString(),
-                        dialogViewBinding.phoneNumberText.text.toString()
-                    )
-                val result = repository.updateAddress(address)
-                result.enqueue(object : Callback<AddressData> {
-                    override fun onResponse(
-                        call: Call<AddressData>,
-                        response: Response<AddressData>
-                    ) {
-                        println(util.customerId)
-                        Toast.makeText(requireContext(), "Güncellendi", Toast.LENGTH_SHORT).show()
-                        viewModel.getAddress(address.id)
-                        bottomSheetDialog.cancel()
-                    }
-
-                    override fun onFailure(call: Call<AddressData>, t: Throwable) {
-                        println(t.localizedMessage)
-                    }
-                })
-            } else {
-                Toast.makeText(
-                    dialogViewBinding.root.context,
-                    "Lütfen bütün alanları eksiksiz doldurun...",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-        }
-        dialogViewBinding.home.setOnClickListener {
-            if (homeTick == 1) {
-                name = ""
-                jobTick = 0
-                homeTick = 0
-                partnerTick = 0
-                updateIcon(dialogViewBinding)
-            } else {
-                name = "Ev"
-                jobTick = 0
-                homeTick = 1
-                partnerTick = 0
-                updateIcon(dialogViewBinding)
-            }
-
-        }
-        dialogViewBinding.job.setOnClickListener {
-            if (jobTick == 1) {
-                name = ""
-                jobTick = 0
-                homeTick = 0
-                partnerTick = 0
-                updateIcon(dialogViewBinding)
-            } else {
-                name = "İş"
-                jobTick = 1
-                homeTick = 0
-                partnerTick = 0
-                updateIcon(dialogViewBinding)
-            }
-        }
-        dialogViewBinding.partner.setOnClickListener {
-            if (partnerTick == 1) {
-                name = ""
-                jobTick = 0
-                homeTick = 0
-                partnerTick = 0
-                updateIcon(dialogViewBinding)
-            } else {
-                name = "Eş"
-                jobTick = 0
-                homeTick = 0
-                partnerTick = 1
-                updateIcon(dialogViewBinding)
-            }
-        }
-    }
-
-    fun updateIcon(viewBinding: SelectedAdressViewBinding) {
-        if (homeTick == 1) {
-            viewBinding.homeIcon.setBackgroundResource(R.drawable.circle_selected_shape)
-            viewBinding.homeIcon.setImageResource(R.drawable.home)
-            viewBinding.homeIcon.updatePadding(30, 30, 30, 30)
-        } else {
-            viewBinding.homeIcon.setBackgroundResource(R.drawable.circle_shape)
-            viewBinding.homeIcon.setImageResource(R.drawable.home_icon)
-            viewBinding.homeIcon.updatePadding(30, 30, 30, 30)
-        }
-        if (jobTick == 1) {
-            viewBinding.jobIcon.setBackgroundResource(R.drawable.circle_selected_shape)
-            viewBinding.jobIcon.setImageResource(R.drawable.work)
-            viewBinding.jobIcon.updatePadding(30, 30, 30, 30)
-        } else {
-            viewBinding.jobIcon.setBackgroundResource(R.drawable.circle_shape)
-            viewBinding.jobIcon.setImageResource(R.drawable.work_icon)
-            viewBinding.jobIcon.updatePadding(30, 30, 30, 30)
-        }
-        if (partnerTick == 1) {
-            viewBinding.partnerIcon.setBackgroundResource(R.drawable.circle_selected_shape)
-            viewBinding.partnerIcon.setImageResource(R.drawable.heart)
-            viewBinding.partnerIcon.updatePadding(30, 30, 30, 30)
-        } else {
-            viewBinding.partnerIcon.setBackgroundResource(R.drawable.circle_shape)
-            viewBinding.partnerIcon.setImageResource(R.drawable.heart_icon)
-            viewBinding.partnerIcon.updatePadding(30, 30, 30, 30)
         }
     }
 }

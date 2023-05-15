@@ -1,5 +1,8 @@
 package com.example.sanabi.view
 
+import android.app.AlertDialog
+import android.app.Dialog
+import android.content.DialogInterface
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import com.example.sanabi.model.Data
@@ -49,7 +52,22 @@ class AccountFragment : Fragment() {
             bundle.putString("incoming","numberPhone")
             findNavController().navigate(R.id.action_accountFragment3_to_accountDetailsFragment,bundle)
         }
+        binding.deleteAccount.setOnClickListener {
+            val alertBuilder =AlertDialog.Builder(requireContext())
+            val alert =alertBuilder.create()
+            alertBuilder.setTitle("Hesabımı sil")
+            alertBuilder.setMessage("Bu hesabı silmek istediğinize emin misiniz ? /n Not: Hesabınızı sildiğiniz takdir de bütün bilgileriniz silinecektir.")
+            alertBuilder.setPositiveButton("Evet",DialogInterface.OnClickListener { dialogInterface, i ->
+                viewModel.deleteCustomer(requireActivity())
+                observerItem()
+            })
+            alertBuilder.setNegativeButton("Hayır",DialogInterface.OnClickListener { dialogInterface, i ->
+                alert.cancel()
+            })
+            alertBuilder.show()
+        }
     }
+
 
     fun observerItem(){
         viewModel.error.observe(viewLifecycleOwner){

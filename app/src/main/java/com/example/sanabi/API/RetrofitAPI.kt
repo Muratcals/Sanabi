@@ -64,6 +64,9 @@ interface RetrofitAPI {
     @DELETE("api/Adress/{id}")
     fun deleteAddress(@Path("id") id:Int):Call<AddressData>
 
+    @DELETE("api/Customers/{id}")
+    fun deleteCustomer(@Path("id") id :Int):Call<Data>
+
     @GET("api/Category")
     suspend fun getAllCategory():Response<CategoryModel>
 

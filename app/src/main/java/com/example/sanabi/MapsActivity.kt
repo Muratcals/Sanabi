@@ -3,6 +3,7 @@ package com.example.sanabi
 import android.Manifest
 import android.app.Dialog
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Address
 import android.location.Geocoder
@@ -23,6 +24,7 @@ import com.example.sanabi.API.Repository
 import com.example.sanabi.Util.CustomBottomSheetBehavior
 import com.example.sanabi.Util.util
 import com.example.sanabi.databinding.ActivityMapsBinding
+import com.example.sanabi.databinding.FragmentSelectedAdressViewBinding
 import com.example.sanabi.databinding.SelectedAdressViewBinding
 import com.example.sanabi.model.AddressData
 import com.example.sanabi.model.GetIdModel
@@ -37,6 +39,7 @@ import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.search.SearchView.Behavior
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -47,11 +50,14 @@ import java.time.LocalTime
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private lateinit var binding: ActivityMapsBinding
+    var tick =true
+    val cancel =true
     private lateinit var lastLocation: Location
     private var marker: Marker? = null
     private lateinit var locationListener: LocationListener
     private lateinit var locationManager: LocationManager
     private lateinit var mMap: GoogleMap
+    var incoming:String?=null
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     val repository = Repository()
     var homeTick = 0
@@ -68,12 +74,16 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
+        incoming = intent.getStringExtra("incoming").toString()
         binding.adressSave.setOnClickListener {
-            if (marker != null) {
-                getAddress(marker!!.position)
-            } else {
-                val latLng = LatLng(lastLocation.latitude, lastLocation.longitude)
-                getAddress(latLng)
+            if (tick){
+                tick=false
+                if (marker != null) {
+                    getAddress(marker!!.position)
+                } else {
+                    val latLng = LatLng(lastLocation.latitude, lastLocation.longitude)
+                    getAddress(latLng)
+                }
             }
         }
     }
@@ -177,12 +187,10 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     }
     fun textAdress(adress: Address) {
         val bottomSheetDialog = BottomSheetDialog(this)
-        val dialogViewBinding = SelectedAdressViewBinding.inflate(layoutInflater)
+        val dialogViewBinding = FragmentSelectedAdressViewBinding.inflate(layoutInflater)
         bottomSheetDialog.setContentView(dialogViewBinding.root)
         bottomSheetDialog.setCancelable(false)
-        bottomSheetDialog.setOnCancelListener {
-            println("poqjwfelmksd")
-        }
+        bottomSheetDialog.dismissWithAnimation=true
         bottomSheetDialog.show()
         dialogViewBinding.lastText.setText("${adress.subLocality} ${adress.thoroughfare} ${adress.subThoroughfare}")
         dialogViewBinding.secText.setText("${adress.subAdminArea} ${adress.locality ?: "İstanbul"} ${adress.postalCode}")
@@ -256,8 +264,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             partnerTick = 1
             updateIcon(dialogViewBinding)
         }
+        tick=true
     }
-    fun updateIcon(viewBinding: SelectedAdressViewBinding) {
+    fun updateIcon(viewBinding: FragmentSelectedAdressViewBinding) {
         if (homeTick == 1) {
             viewBinding.homeIcon.setBackgroundResource(R.drawable.circle_selected_shape)
             viewBinding.homeIcon.setImageResource(R.drawable.home)
@@ -315,9 +324,13 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             override fun onResponse(call: Call<AddressData>, response: Response<AddressData>) {
                 dialog.cancel()
                 Toast.makeText(this@MapsActivity, "Adres Eklendi", Toast.LENGTH_SHORT).show()
+                if (incoming!=null){
+                    val intent =Intent(applicationContext,MainActivity::class.java)
+                    startActivity(intent)
+                    this@MapsActivity.finish()
+                }
                 this@MapsActivity.finish()
             }
-
             override fun onFailure(call: Call<AddressData>, t: Throwable) {
                 Toast.makeText(this@MapsActivity, t.localizedMessage, Toast.LENGTH_SHORT)
                     .show()

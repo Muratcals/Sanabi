@@ -34,7 +34,7 @@ class AddressFragment : Fragment() {
             }else{
                 binding.errorLinear.visibility=View.GONE
                 binding.addressRecycler.visibility=View.VISIBLE
-                val adapter = ListeningAdressAdapter(it as ArrayList<AddressData>,"")
+                val adapter = ListeningAdressAdapter(it as ArrayList<AddressData>)
                 binding.addressRecycler.adapter=adapter
                 binding.addressRecycler.layoutManager= LinearLayoutManager(requireContext(),LinearLayoutManager.VERTICAL,false)
             }

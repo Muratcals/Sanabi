@@ -9,5 +9,14 @@
         android:id="@+id/addressFragment"
         android:name="com.example.sanabi.view.AddressFragment"
         android:label="fragment_address"
-        tools:layout="@layout/fragment_address" />
+        tools:layout="@layout/fragment_address" >
+        <action
+            android:id="@+id/action_addressFragment_to_selectedAdressViewFragment"
+            app:destination="@id/selectedAdressViewFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/selectedAdressViewFragment"
+        android:name="com.example.sanabi.view.SelectedAdressViewFragment"
+        android:label="fragment_selected_adress_view"
+        tools:layout="@layout/fragment_selected_adress_view" />
 </navigation>
