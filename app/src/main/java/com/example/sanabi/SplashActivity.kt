@@ -20,6 +20,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.firebase.auth.AuthCredential
+import com.google.firebase.auth.GoogleAuthProvider
 
 
 class SplashActivity : AppCompatActivity() {
@@ -71,7 +73,7 @@ class SplashActivity : AppCompatActivity() {
             bottomSheetDialog.show()
             binding.signInMail.setOnClickListener{
                 val intent=Intent(this,LoginActivity::class.java)
-                intent.putExtra("coming","account")
+                intent.putExtra("incoming","account")
                 startActivity(intent)
             }
             binding.signInGoogle.setOnClickListener{
@@ -108,11 +110,18 @@ class SplashActivity : AppCompatActivity() {
                 if (it.signInMethods!![0].toString().equals("password")){
                     Toast.makeText(applicationContext, "Bu mail adresi şifre ile giriş yapmıştır. Şifre ile giriş yapmayı deneyiniz.", Toast.LENGTH_SHORT).show()
                     googleSignIn.signOut()
+                }else{
+                    val credential =GoogleAuthProvider.getCredential(account.idToken,null)
+                    util.auth.signInWithCredential(credential).addOnSuccessListener {
+                        val intents =Intent(applicationContext,MainActivity::class.java)
+                        startActivity(intents)
+                        this.finish()
+                    }
                 }
             }else{
                 val bundle = bundleOf("account" to account)
                 intent.putExtra("account",bundle)
-                intent.putExtra("coming","Google")
+                intent.putExtra("incoming","Google")
                 startActivity(intent)
             }
         }

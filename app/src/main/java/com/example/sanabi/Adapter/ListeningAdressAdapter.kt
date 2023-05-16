@@ -1,5 +1,7 @@
 package com.example.sanabi.Adapter
 
+import android.app.Activity
+import android.content.SharedPreferences
 import android.location.Address
 import android.os.Parcelable
 import android.view.LayoutInflater
@@ -11,6 +13,7 @@ import androidx.core.view.updatePadding
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.sanabi.API.Repository
+import com.example.sanabi.MenuActivity
 import com.example.sanabi.R
 import com.example.sanabi.Util.util
 import com.example.sanabi.databinding.AddressAdapterViewBinding
@@ -28,6 +31,8 @@ import java.time.LocalTime
 import java.util.Locale
 
 class ListeningAdressAdapter(
+    val activity: Activity,
+    val sharedPreferences: SharedPreferences,
     val addressList: ArrayList<AddressData>
 ) : RecyclerView.Adapter<ListeningAdressAdapter.AddressVH>() {
     private lateinit var binding: AddressAdapterViewBinding
@@ -66,7 +71,7 @@ class ListeningAdressAdapter(
         if (addressList[position].adressDetails.isEmpty()) {
             binding.addressDirection.setText("Adres Tarifi:Yok")
         } else {
-            binding.addressDirection.setText("Adres Tarifi:${addressList[position].adressDetails}")
+            binding.addressDirection.setText("Adres Tarifi: ${addressList[position].adressDetails}")
         }
         binding.editImage.setOnClickListener {
             val bundle = bundleOf("addressId" to addressList[position].id)
@@ -77,8 +82,14 @@ class ListeningAdressAdapter(
             repo.enqueue(object :Callback<AddressData>{
                 override fun onResponse(call: Call<AddressData>, response: Response<AddressData>) {
                     Toast.makeText(holder.itemView.context, "Silindi", Toast.LENGTH_SHORT).show()
-                    viewModel.getAdress()
-                    notifyDataSetChanged()
+                    if (addressList.size<=1){
+                        val editor =sharedPreferences.edit()
+                        editor.putInt("addressId",0)
+                        editor.apply()
+                        activity.finish()
+                    }else{
+                        viewModel.getAdress()
+                    }
                 }
                 override fun onFailure(call: Call<AddressData>, t: Throwable) {
                     println(t.localizedMessage)

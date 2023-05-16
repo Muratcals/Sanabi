@@ -2,7 +2,9 @@ package com.example.sanabi.viewModel
 
 import android.app.Activity
 import android.content.Context
+import android.content.DialogInterface
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -21,27 +23,30 @@ import retrofit2.Response
 
 class AccountViewModel : ViewModel() {
 
-    val repository =Repository()
-    val user=MutableLiveData<Data>()
-    val progress =MutableLiveData<Boolean>()
-    val error =MutableLiveData<Boolean>()
+    val repository = Repository()
+    val user = MutableLiveData<Data>()
+    val progress = MutableLiveData<Boolean>()
+    val error = MutableLiveData<Boolean>()
 
-    fun getUserInformation(){
-        progress.value=true
-        val repo =repository.getIdUser(util.auth.currentUser!!.email.toString())
-        repo.enqueue(object: Callback<GetIdModel>{
+    fun getUserInformation() {
+        progress.value = true
+        val repo = repository.getIdUser(util.auth.currentUser!!.email.toString())
+        repo.enqueue(object : Callback<GetIdModel> {
             override fun onResponse(call: Call<GetIdModel>, response: Response<GetIdModel>) {
-                val repo2 =repository.getIdUserData(response.body()!!.data)
-                repo2.enqueue(object :Callback<GetUserInformation>{
-                    override fun onResponse(call: Call<GetUserInformation>, response: Response<GetUserInformation>) {
-                        user.value=response.body()!!.data
-                        progress.value=false
-                        error.value=false
+                val repo2 = repository.getIdUserData(response.body()!!.data)
+                repo2.enqueue(object : Callback<GetUserInformation> {
+                    override fun onResponse(
+                        call: Call<GetUserInformation>,
+                        response: Response<GetUserInformation>
+                    ) {
+                        user.value = response.body()!!.data
+                        progress.value = false
+                        error.value = false
                     }
 
                     override fun onFailure(call: Call<GetUserInformation>, t: Throwable) {
-                        error.value=true
-                        progress.value=false
+                        error.value = true
+                        progress.value = false
                     }
 
                 })
@@ -53,74 +58,99 @@ class AccountViewModel : ViewModel() {
 
         })
         viewModelScope.launch {
-            val result =repository.getAllData()
-            if (result.isSuccessful){
-                for (datas in result.body()!!.data){
-                    if (datas.mail.equals(util.auth.currentUser)){
-                        user.value=datas
+            val result = repository.getAllData()
+            if (result.isSuccessful) {
+                for (datas in result.body()!!.data) {
+                    if (datas.mail.equals(util.auth.currentUser)) {
+                        user.value = datas
                         break
                     }
                 }
-                progress.value=false
-                error.value=false
-            }else{
+                progress.value = false
+                error.value = false
+            } else {
                 println(result.errorBody())
-                progress.value=false
-                error.value=true
+                progress.value = false
+                error.value = true
             }
         }
     }
 
-    fun deleteAccount(activity:Activity){
-        progress.value=true
-        val getCustomerAddress =repository.getSelectedAddress(util.customerId)
-        getCustomerAddress.enqueue(object:Callback<AddressModel>{
-            override fun onResponse(call: Call<AddressModel>, response: Response<AddressModel>) {
-                if (response.body()!=null){
-                    for (items in response.body()!!.data){
-                        val deleteAddress =repository.deleteAddress(items.id)
-                        deleteAddress.enqueue(object :Callback<AddressData>{
-                            override fun onResponse(
-                                call: Call<AddressData>,
-                                response: Response<AddressData>
-                            ) {
-
-                            }
-                            override fun onFailure(call: Call<AddressData>, t: Throwable) {
-                                println(t.localizedMessage)
-                            }
-                        })
-                    }
-                }
-            }
-            override fun onFailure(call: Call<AddressModel>, t: Throwable) {
-                println(t.localizedMessage)
-            }
-        })
-    }
-    fun deleteCustomer(activity: Activity){
-        progress.value=true
-        val deleteAccount =repository.deleteCustomer(util.customerId)
-        deleteAccount.enqueue(object :Callback<Data>{
-            override fun onResponse(call: Call<Data>, response: Response<Data>) {
-                activity.deleteSharedPreferences("AddressId")
-                activity.deleteSharedPreferences("PaymentMethod")
-                viewModelScope.launch(Dispatchers.IO) {
-                    val database =DatabaseRoom.getDatabase(activity.applicationContext)
-                    database.roomDb().deleteAllBasket()
-                    println("şuana kadar başarılı")
-                }
-                util.customerId=0
-                util.auth.currentUser!!.delete().addOnSuccessListener {
-                    val googleSingIn=GoogleSignIn.getClient(activity,gso)
+    fun deleteAccount(activity: Activity) {
+        progress.value = true
+        if (util.auth.currentUser != null) {
+            util.auth.currentUser!!.delete().addOnCompleteListener {
+                if (it.isSuccessful) {
+                    util.customerId = 0
+                    val googleSingIn = GoogleSignIn.getClient(activity, gso)
                     googleSingIn.signOut()
                     util.auth.signOut()
-                    Toast.makeText(activity, "Kullanıcı başarıyla silinmiştir", Toast.LENGTH_SHORT).show()
-                    progress.value=false
+                    deleteCustomer(activity)
                 }
+            }.addOnFailureListener {
+                if (it.localizedMessage!!.equals("This operation is sensitive and requires recent authentication. Log in again before retrying this request.")) {
+                    val alertBuilder = AlertDialog.Builder(activity)
+                    val alert = alertBuilder.create()
+                    alertBuilder.setTitle("Doğrulanmamış hesap uyarısı")
+                    alertBuilder.setMessage("Hesabınızı doğrulamadan bir silme işlemi yapamazsınız.Mail adresinize doğrulama işlemi göndermemizi ister misiniz ?\n Not: Eğer hesabızını doğruladıysanız çıkış yapıp tekrar girmeyi deneyiniz.")
+                    alertBuilder.setPositiveButton(
+                        "Gönder",
+                        DialogInterface.OnClickListener { dialogInterface, i ->
+                            util.auth.currentUser!!.sendEmailVerification().addOnSuccessListener {
+                                Toast.makeText(
+                                    activity.applicationContext,
+                                    "Mail adresine doğrulama işlemi başarıyla gönderilmiştir.Hesabınızı doğruladıktan sonra çıkış yapıp tekrar girdikten sonra silme işlemini yapabilirsinz..",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                                alert.cancel()
+                            }.addOnFailureListener {
+                                println(it.localizedMessage)
+                            }
+                        })
+                    alertBuilder.setNegativeButton(
+                        "Gönderme",
+                        DialogInterface.OnClickListener { dialogInterface, i ->
+                            alert.cancel()
+                        })
+                    alertBuilder.show()
+                }
+                progress.value = false
             }
+        } else {
+            deleteCustomer(activity)
+        }
+    }
+
+    fun deleteCustomer(activity: Activity) {
+        val deleteAccount = repository.deleteCustomer(util.customerId)
+        deleteAccount.enqueue(object : Callback<Data> {
+            override fun onResponse(call: Call<Data>, response: Response<Data>) {
+                val sharedPreferences =
+                    activity.getSharedPreferences("AddressId", Context.MODE_PRIVATE)
+                val editor = sharedPreferences.edit()
+                editor.apply {
+                    this.putInt("addressId", 0)
+                }
+                val sharedPreferencesPayment =
+                    activity.getSharedPreferences("PaymentMethod", Context.MODE_PRIVATE)
+                val editorPayment = sharedPreferencesPayment.edit()
+                editorPayment.apply {
+                    this.putInt("paymentMethod", 0)
+                }
+                viewModelScope.launch(Dispatchers.IO) {
+                    val database = DatabaseRoom.getDatabase(activity.applicationContext)
+                    val searchDatabase=DatabaseRoom.getSearchDatabase(activity.applicationContext)
+                    searchDatabase.searchRoomDb().deletePastSearch()
+                    database.roomDb().deleteAllBasket()
+                    progress.value = false
+                }
+                Toast.makeText(activity, "Kullanıcı başarıyla silinmiştir", Toast.LENGTH_SHORT)
+                    .show()
+            }
+
             override fun onFailure(call: Call<Data>, t: Throwable) {
                 println(t.localizedMessage)
+                progress.value=false
             }
         })
     }

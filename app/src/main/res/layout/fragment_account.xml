@@ -78,7 +78,7 @@
                 android:orientation="horizontal">
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -104,6 +104,32 @@
                         android:textColor="@color/black"
                         android:textSize="@dimen/_13ssp"
                         android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/_10sdp"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/verificationImage"
+                            android:layout_width="@dimen/_20sdp"
+                            android:layout_height="@dimen/_20sdp"
+                            android:padding="@dimen/_2sdp"
+                            android:src="@drawable/error"
+                            android:layout_marginHorizontal="@dimen/_10sdp"
+                            />
+
+                        <TextView
+                            android:id="@+id/emailVerification"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text="E-Posta Adresini Doğrula"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_11ssp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
                 </LinearLayout>
 
                 <ImageView

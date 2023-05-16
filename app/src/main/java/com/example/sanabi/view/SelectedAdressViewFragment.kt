@@ -14,18 +14,14 @@ import com.example.sanabi.API.Repository
 import com.example.sanabi.R
 import com.example.sanabi.Util.util
 import com.example.sanabi.databinding.FragmentSelectedAdressViewBinding
-import com.example.sanabi.databinding.SelectedAdressViewBinding
 import com.example.sanabi.model.AddressData
-import com.example.sanabi.model.AddressModel
 import com.example.sanabi.model.GetAddressModel
-import com.example.sanabi.model.GetIdModel
+import com.example.sanabi.viewModel.SelectedAdressViewViewModel
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.time.LocalDate
-import java.time.LocalTime
 
 class SelectedAdressViewFragment : Fragment() {
 

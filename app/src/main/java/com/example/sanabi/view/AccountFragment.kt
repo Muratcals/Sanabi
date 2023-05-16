@@ -10,8 +10,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import com.example.sanabi.R
+import com.example.sanabi.Util.util
 import com.example.sanabi.databinding.FragmentAccountBinding
 import com.example.sanabi.viewModel.AccountViewModel
 
@@ -30,6 +32,16 @@ class AccountFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(this).get(AccountViewModel::class.java)
         viewModel.getUserInformation()
+        if (util.auth.currentUser!!.isEmailVerified){
+            binding.emailVerification.setText("Doğrulanmış E-Posta adresi")
+            binding.verificationImage.setImageResource(R.drawable.sucess)
+        }else{
+            binding.emailVerification.setOnClickListener {
+                util.auth.currentUser!!.sendEmailVerification().addOnSuccessListener {
+                    Toast.makeText(requireContext(), "E-Posta doğrulama bağlantısı gönderildi", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
         observerItem()
         val bundle = Bundle()
         binding.accountName.setOnClickListener {
@@ -56,9 +68,9 @@ class AccountFragment : Fragment() {
             val alertBuilder =AlertDialog.Builder(requireContext())
             val alert =alertBuilder.create()
             alertBuilder.setTitle("Hesabımı sil")
-            alertBuilder.setMessage("Bu hesabı silmek istediğinize emin misiniz ? /n Not: Hesabınızı sildiğiniz takdir de bütün bilgileriniz silinecektir.")
+            alertBuilder.setMessage("Bu hesabı silmek istediğinize emin misiniz ? \nNot: Hesabınızı sildiğiniz takdir de bütün bilgileriniz silinecektir.")
             alertBuilder.setPositiveButton("Evet",DialogInterface.OnClickListener { dialogInterface, i ->
-                viewModel.deleteCustomer(requireActivity())
+                viewModel.deleteAccount(requireActivity())
                 observerItem()
             })
             alertBuilder.setNegativeButton("Hayır",DialogInterface.OnClickListener { dialogInterface, i ->

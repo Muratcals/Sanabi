@@ -1,4 +1,4 @@
-package com.example.sanabi.view
+package com.example.sanabi.viewModel
 
 import androidx.lifecycle.ViewModel
 

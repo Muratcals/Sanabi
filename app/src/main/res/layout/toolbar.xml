@@ -22,7 +22,7 @@
                 android:textColor="@color/white"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Yıldıztepe Mah.564.sk: No:24"
+                android:text="Null Mah.nul.sk: No:null"
                 android:fontFamily="@font/arial" />
             <TextView
                 android:id="@+id/openAdressDetails"
@@ -30,7 +30,7 @@
                 android:textColor="@color/white"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Bağcılar Istanbul"
+                android:text="null null"
                 android:fontFamily="@font/arial" />
         </LinearLayout>
         <ImageView

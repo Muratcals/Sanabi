@@ -6,11 +6,6 @@
     android:background="#EBEBEB"
     android:orientation="vertical">
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:src="@drawable/minus" />
-
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -20,15 +15,32 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/_10sdp"
-                android:fontFamily="@font/arial"
-                android:text="Yeni adres ekle"
-                android:textColor="@color/black"
-                android:textSize="@dimen/_17ssp"
-                android:textStyle="bold" />
+                android:orientation="horizontal"
+                android:padding="@dimen/_5sdp"
+                android:layout_marginTop="@dimen/_10sdp">
+
+                <ImageView
+                    android:id="@+id/selectedAddressCancel"
+                    android:layout_width="@dimen/_25sdp"
+                    android:layout_height="@dimen/_25sdp"
+                    android:src="@drawable/error"
+                    android:layout_marginStart="@dimen/_10sdp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/_10sdp"
+                    android:fontFamily="@font/arial"
+                    android:text="Yeni adres ekle"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_17ssp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+
 
             <LinearLayout
                 android:layout_width="match_parent"

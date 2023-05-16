@@ -9,6 +9,7 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.os.PersistableBundle
 import android.text.Layout
+import android.util.AttributeSet
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.MenuItem
@@ -97,7 +98,6 @@ class MainActivity : AppCompatActivity() {
                 else -> false
             }
         }
-
         binding.market.setOnClickListener {
             val intent = Intent(applicationContext, MainDetailsActivity::class.java)
             intent.putExtra("incoming", "main")
@@ -109,6 +109,10 @@ class MainActivity : AppCompatActivity() {
         }
         binding.toolbar.mainBasketIcon.setOnClickListener {
             val intent =Intent(applicationContext,OrderActivity::class.java)
+            startActivity(intent)
+        }
+        binding.searchProduct.setOnClickListener {
+            val intent =Intent(applicationContext,SearchActivity::class.java)
             startActivity(intent)
         }
     }
@@ -156,7 +160,10 @@ class MainActivity : AppCompatActivity() {
                                     responses: Response<GetUserInformation>
                                 ) {
                                     menuHeader.adLastName.setText("${responses.body()!!.data.name} ${responses.body()!!.data.surname}")
-                                    selectedAdressDialog()
+                                    binding.mainCustomerName.setText("Hoşgeldin ${responses.body()!!.data.name.toUpperCase()}")
+                                    if (sharedPreferences.getInt("addressId",0)!=0){
+                                        toolbarAddresUpdate()
+                                    }
                                 }
 
                                 override fun onFailure(
@@ -169,17 +176,20 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
                 override fun onFailure(call: Call<GetIdModel>, t: Throwable) {
-                    println("${t.localizedMessage} tamma ")
+                    println(t.localizedMessage)
                 }
             })
     }
 
+    override fun onResume() {
+        super.onResume()
+        sharedPreferences=getSharedPreferences("AddressId",Context.MODE_PRIVATE)
+        if (sharedPreferences.getInt("addressId",0)==0){
+            selectedAdressDialog()
+        }
+    }
+
     fun selectedAdressDialog() {
-        binding.mainLayout.alpha=1f
-        binding.market.isEnabled=true
-        binding.drawerLayout.isEnabled=true
-        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-        binding.mainProgress.visibility=View.INVISIBLE
         val dialog = BottomSheetDialog(this)
         val view = SelectedAdressDialogRecyclerBinding.inflate(layoutInflater)
         dialog.setCancelable(false)
@@ -203,6 +213,7 @@ class MainActivity : AppCompatActivity() {
             val intent =Intent(applicationContext,MapsActivity::class.java)
             intent.putExtra("incoming","main")
             startActivity(intent)
+            dialog.cancel()
         }
     }
     fun getAddressInformation(view: SelectedAdressDialogRecyclerBinding){
@@ -228,9 +239,17 @@ class MainActivity : AppCompatActivity() {
         val id =sharedPreferences.getInt("addressId", 0)
         repository.getAddressInformation(id).enqueue(object:Callback<GetAddressModel>{
             override fun onResponse(call: Call<GetAddressModel>, response: Response<GetAddressModel>) {
-                binding.toolbar.openAdress.setText("${response.body()!!.data.neighbourhood} Mah. ${response.body()!!.data.street} No:${response.body()!!.data.buildingNo}")
-                binding.toolbar.openAdressDetails.setText("${response.body()!!.data.districte} ${response.body()!!.data.province} ")
-                println(response.body()!!.data.neighbourhood)
+                if (response.body()!=null){
+                    binding.toolbar.openAdress.setText("${response.body()!!.data.neighbourhood} Mah. ${response.body()!!.data.street} No:${response.body()!!.data.buildingNo}")
+                    binding.toolbar.openAdressDetails.setText("${response.body()!!.data.districte} ${response.body()!!.data.province} ")
+                    binding.mainLayout.alpha=1f
+                    binding.market.isEnabled=true
+                    binding.drawerLayout.isEnabled=true
+                    supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+                    binding.mainProgress.visibility=View.INVISIBLE
+                }else{
+                    selectedAdressDialog()
+                }
             }
             override fun onFailure(call: Call<GetAddressModel>, t: Throwable) {
                 println(t.localizedMessage)
