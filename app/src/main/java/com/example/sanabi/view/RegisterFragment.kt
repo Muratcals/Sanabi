@@ -48,10 +48,10 @@ class RegisterFragment : Fragment() {
             viewModel.passwordNumberControl(it.toString())
             if (passwordSuccessControl()) {
                 binding.registerButton.setBackgroundResource(R.drawable.next_button_shape)
-                binding.registerButton.isClickable = true
+                buttonClickable(true)
             } else {
                 binding.registerButton.setBackgroundResource(R.drawable.error_button_shape)
-                binding.registerButton.isClickable = false
+                buttonClickable(false)
             }
         }
         observerItem()
@@ -69,10 +69,15 @@ class RegisterFragment : Fragment() {
             datepickerlistener.show()
         }
         binding.registerButton.setOnClickListener {
+            buttonClickable(false)
             saveData()
         }
         binding.registerText.setOnClickListener {
+            buttonClickable(false)
             saveData()
+        }
+        binding.backPage.setOnClickListener {
+            requireActivity().onBackPressed()
         }
     }
 
@@ -83,6 +88,7 @@ class RegisterFragment : Fragment() {
                 "Lütfen bütün alanları eksiksiz doldurunuz.",
                 Toast.LENGTH_SHORT
             ).show()
+            buttonClickable(true)
         } else {
                 val data =Data(
                     binding.calendarText.text.toString(),
@@ -96,6 +102,13 @@ class RegisterFragment : Fragment() {
             val activity =requireActivity() as AppCompatActivity
             viewModel.postData(activity,data,binding.passwordText.text.toString())
         }
+    }
+
+    fun buttonClickable(state:Boolean){
+        binding.registerButton.isClickable=state
+        binding.registerButton.isEnabled=state
+        binding.registerText.isEnabled=state
+        binding.registerText.isClickable=state
     }
 
     fun observerItem() {
@@ -120,7 +133,9 @@ class RegisterFragment : Fragment() {
             )
         }
         viewModel.saveControl.observe(viewLifecycleOwner) {
-
+            if (!it){
+                buttonClickable(true)
+            }
         }
     }
     fun passwordSuccessControl(): Boolean {

@@ -77,6 +77,11 @@ class CategoryContentFragment : Fragment() {
             viewModel.getAllCategoryProducts(id)
             categoryNameadapter.updateData(it.data, id)
             binding.categoryNameRecycler.adapter = categoryNameadapter
+            if (id >5){
+                binding.categoryNameRecycler.scrollToPosition(id)
+            }else{
+                binding.categoryNameRecycler.scrollToPosition(id-1)
+            }
             observerItem()
         }
     }

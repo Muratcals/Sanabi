@@ -13,21 +13,27 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
+import com.example.sanabi.API.Repository
 import com.example.sanabi.Util.util
 import com.example.sanabi.databinding.ActivitySplashBinding
 import com.example.sanabi.databinding.LoginAlertBinding
+import com.example.sanabi.model.GetIdModel
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.GoogleAuthProvider
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 
 class SplashActivity : AppCompatActivity() {
 
     private lateinit var googleSignIn:GoogleSignInClient
     private lateinit var binding :ActivitySplashBinding
+    private val repository=Repository()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding=ActivitySplashBinding.inflate(layoutInflater)
@@ -46,7 +52,7 @@ class SplashActivity : AppCompatActivity() {
                     }
                 }
                 override fun onFinish() {
-                    if (internetControl()){
+                    if (util.internetControl(this@SplashActivity)){
                         loginAlertDialog()
                     }else{
                         Toast.makeText(applicationContext, "Internet bağlantınızı kontrol ediniz", Toast.LENGTH_SHORT).show()
@@ -54,7 +60,7 @@ class SplashActivity : AppCompatActivity() {
                 }
             }.start()
         }else{
-            if (internetControl()){
+            if (util.internetControl(this)){
                 loginAlertDialog()
             }else{
                 Toast.makeText(applicationContext, "Internet bağlantınızı kontrol ediniz", Toast.LENGTH_SHORT).show()
@@ -83,13 +89,6 @@ class SplashActivity : AppCompatActivity() {
         }
     }
 
-    fun internetControl(): Boolean {
-        val connectivityManager=applicationContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        val networkCapabilities= connectivityManager.activeNetwork?: return false
-        val actNw=connectivityManager.getNetworkCapabilities(networkCapabilities) ?: return false
-        return actNw.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
-    }
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode==100){
@@ -111,12 +110,24 @@ class SplashActivity : AppCompatActivity() {
                     Toast.makeText(applicationContext, "Bu mail adresi şifre ile giriş yapmıştır. Şifre ile giriş yapmayı deneyiniz.", Toast.LENGTH_SHORT).show()
                     googleSignIn.signOut()
                 }else{
-                    val credential =GoogleAuthProvider.getCredential(account.idToken,null)
-                    util.auth.signInWithCredential(credential).addOnSuccessListener {
-                        val intents =Intent(applicationContext,MainActivity::class.java)
-                        startActivity(intents)
-                        this.finish()
-                    }
+                    repository.getIdUser(account.email.toString()).enqueue(object :Callback<GetIdModel>{
+                        override fun onResponse(
+                            call: Call<GetIdModel>,
+                            response: Response<GetIdModel>
+                        ) {
+                            util.customerId=response.body()!!.data
+                            val credential =GoogleAuthProvider.getCredential(account.idToken,null)
+                            util.auth.signInWithCredential(credential).addOnSuccessListener {
+                                val intents =Intent(applicationContext,MainActivity::class.java)
+                                startActivity(intents)
+                                this@SplashActivity.finish()
+                            }
+                        }
+
+                        override fun onFailure(call: Call<GetIdModel>, t: Throwable) {
+                            Toast.makeText(applicationContext, t.localizedMessage, Toast.LENGTH_SHORT).show()
+                        }
+                    })
                 }
             }else{
                 val bundle = bundleOf("account" to account)

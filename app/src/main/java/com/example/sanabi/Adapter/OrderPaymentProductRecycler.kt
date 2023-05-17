@@ -13,6 +13,7 @@ import com.example.sanabi.viewModel.OrderPaymentViewModel
 class OrderPaymentProductRecycler(var orderList:ArrayList<BasketProductModelData>, val viewModelOrderPaymentViewModel: OrderPaymentViewModel):RecyclerView.Adapter<OrderPaymentProductRecycler.PaymentProductVH>() {
     class PaymentProductVH(view: View):RecyclerView.ViewHolder(view) {
         val paymentProductName=view.findViewById<TextView>(R.id.paymentProductName)
+        val paymentProductAmount=view.findViewById<TextView>(R.id.paymentProductAmount)
         val paymentProductPrice=view.findViewById<TextView>(R.id.paymentProductPrice)
     }
 
@@ -26,7 +27,8 @@ class OrderPaymentProductRecycler(var orderList:ArrayList<BasketProductModelData
     }
 
     override fun onBindViewHolder(holder: PaymentProductVH, position: Int) {
-        holder.paymentProductName.setText("${orderList[position].amount}x ${orderList[position].name}")
+        holder.paymentProductAmount.setText("${orderList[position].amount}x")
+        holder.paymentProductName.setText(orderList[position].name)
         val productSumPrice=orderList[position].price * orderList[position].amount
         holder.paymentProductPrice.decimalFormet(productSumPrice)
     }

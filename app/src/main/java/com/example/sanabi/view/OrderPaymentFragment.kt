@@ -11,6 +11,7 @@ import android.widget.Button
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
 import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
@@ -110,6 +111,7 @@ class OrderPaymentFragment : Fragment() {
                 viewModel.addressInformation.value?.data?.let {
                 val bundle = bundleOf("addressId" to it.id)
                     findNavController().navigate(R.id.action_orderPaymentFragment_to_selectedAdressViewFragment2,bundle)
+                    (requireActivity() as AppCompatActivity).supportActionBar?.hide()
                 }
             }
             binding.paymentAddressEditButton.setOnClickListener {

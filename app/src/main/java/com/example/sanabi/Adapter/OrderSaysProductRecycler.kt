@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.sanabi.R
 import com.example.sanabi.Room.DatabaseRoom
+import com.example.sanabi.Util.decimalFormet
 import com.example.sanabi.Util.downloadImage
 import com.example.sanabi.model.BasketProductModelData
 import com.example.sanabi.model.CategoryProducts
@@ -38,7 +39,7 @@ class OrderSaysProductRecycler(var itemSays:List<CategoryProducts>,val newOrderC
     override fun onBindViewHolder(holder: SaysVH, position: Int) {
         holder.saysName.setText(itemSays[position].name)
         holder.saysImage.downloadImage(itemSays[position].image)
-        holder.saysPrice.setText(itemSays[position].price.toString())
+        holder.saysPrice.decimalFormet(itemSays[position].price)
         holder.saysAddOther.setOnClickListener {
             MainScope().launch(Dispatchers.IO) {
                 val itemControls =holder.db.getProductById(itemSays[position].id)

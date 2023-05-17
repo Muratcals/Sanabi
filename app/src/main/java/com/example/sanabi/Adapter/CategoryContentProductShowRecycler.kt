@@ -12,6 +12,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.sanabi.R
 import com.example.sanabi.Room.DatabaseRoom
+import com.example.sanabi.Util.decimalFormet
 import com.example.sanabi.Util.downloadImage
 import com.example.sanabi.model.BasketProductModelData
 import com.example.sanabi.model.GetCategoryProductsModel
@@ -52,7 +53,7 @@ class CategoryContentProductShowRecycler(
         val count =count(holder)
         holder.productName.setText(productsItem.data.products[position].description)
         holder.productImage.downloadImage(productsItem.data.products[position].image)
-        holder.productPrice.setText("${productsItem.data.products[position].price} TL")
+        holder.productPrice.decimalFormet(productsItem.data.products[position].price)
         holder.addOther.setOnClickListener {
             MainScope().launch(Dispatchers.IO) {
                 val itemControl = holder.database
@@ -81,7 +82,7 @@ class CategoryContentProductShowRecycler(
                         ).show()
                     }
                 } else {
-                   showAddView(holder, itemControl)
+                   showAddView(holder, itemControl.amount)
                     count.start()
                 }
             }
@@ -93,7 +94,7 @@ class CategoryContentProductShowRecycler(
                 holder.database
                     .updateBasket(itemControl!!.copy(amount = itemControl.amount + 1))
                 activity.runOnUiThread {
-                    holder.viewAmountText.setText((itemControl.amount + 1).toString())
+                    showAddView(holder,itemControl.amount+1)
                     Toast.makeText(
                         holder.itemView.context,
                         "${itemControl.name} sepete eklendi",
@@ -106,11 +107,10 @@ class CategoryContentProductShowRecycler(
         }
         holder.viewDeleteProduct.setOnClickListener {
             MainScope().launch(Dispatchers.IO) {
-            val itemControl = holder.database
-                .getProductById(productsItem.data.products[position].id)
+            val itemControl = holder.database.getProductById(productsItem.data.products[position].id)
                 holder.database.updateBasket(itemControl!!.copy(amount = itemControl.amount - 1))
                 activity.runOnUiThread {
-                    holder.viewAmountText.setText((itemControl.amount - 1).toString())
+                    showAddView(holder,itemControl.amount-1)
                 }
             }
             count.cancel()
@@ -140,21 +140,21 @@ class CategoryContentProductShowRecycler(
         viewModel.addBasketProduct(view, items)
     }
 
-    fun showAddView(holder: ProductVH, itemControl: BasketProductModelData) {
+    fun showAddView(holder: ProductVH, itemSize:Int) {
         activity.runOnUiThread {
-            if (itemControl.amount>1){
+            if (itemSize>1){
                 holder.viewBinProduct.visibility = View.GONE
                 holder.viewDeleteProduct.visibility = View.VISIBLE
             }else{
                 holder.viewBinProduct.visibility = View.VISIBLE
                 holder.viewDeleteProduct.visibility = View.GONE
             }
-            holder.viewAmountText.setText((itemControl.amount).toString())
+            holder.viewAmountText.setText((itemSize).toString())
         }
     }
 
     fun count(holder:ProductVH):CountDownTimer{
-        return object : CountDownTimer(3500, 1000) {
+        return object : CountDownTimer(1500, 1000) {
             override fun onTick(p0: Long) {
                 holder.addOther.visibility = View.GONE
                 holder.addView.visibility = View.VISIBLE

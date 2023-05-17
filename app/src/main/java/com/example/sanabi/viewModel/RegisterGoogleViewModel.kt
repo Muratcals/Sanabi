@@ -28,7 +28,7 @@ class RegisterGoogleViewModel : ViewModel() {
         val result = repository.postUserData(userInformation)
         result.enqueue(object : Callback<Data> {
             override fun onResponse(call: Call<Data>, response: Response<Data>) {
-                save(activity)
+                save(activity,response.body()!!.id)
             }
             override fun onFailure(call: Call<Data>, t: Throwable) {
                 Toast.makeText(
@@ -36,32 +36,34 @@ class RegisterGoogleViewModel : ViewModel() {
                     t.localizedMessage,
                     Toast.LENGTH_SHORT
                 ).show()
+                progress.value=false
             }
-
         })
-
     }
 
-    fun save(activity: AppCompatActivity) {
+    fun delete(id:Int){
+        val result = repository.deleteCustomer(id)
+        result.enqueue(object : Callback<Data> {
+            override fun onResponse(call: Call<Data>, response: Response<Data>) {
+
+            }
+            override fun onFailure(call: Call<Data>, t: Throwable) {
+
+            }
+        })
+    }
+
+    fun save(activity: AppCompatActivity,id:Int) {
         val googleSignIn = GoogleSignIn.getClient(activity.applicationContext, util.gso)
-        val credential =
-            GoogleAuthProvider.getCredential(googleSignIn.silentSignIn().result.idToken, null)
+        val credential = GoogleAuthProvider.getCredential(googleSignIn.silentSignIn().result.idToken, null)
         util.auth.signInWithCredential(credential).addOnSuccessListener {
+            Toast.makeText(activity.applicationContext, "Kaydınız oluşturulmuştur.Google ile giriş yapabilirsiniz", Toast.LENGTH_SHORT).show()
             progress.value=false
-            val intent = Intent(activity, MainActivity::class.java)
-            activity.startActivity(intent)
             activity.finish()
-        }
-    }
-
-    fun saveDatabase(activity: AppCompatActivity, eMail: String) {
-        val hashMap = hashMapOf<String, Any>()
-        hashMap.put("Email", eMail)
-        hashMap.put("login", "Google")
-        util.database.collection("User Information").add(hashMap).addOnSuccessListener {
-            Toast.makeText(activity.applicationContext, "Kullanıcı eklendi", Toast.LENGTH_SHORT)
-                .show()
-            save(activity)
+        }.addOnFailureListener {
+            delete(id)
+            progress.value=false
+            Toast.makeText(activity.applicationContext, it.localizedMessage, Toast.LENGTH_SHORT).show()
         }
     }
 }

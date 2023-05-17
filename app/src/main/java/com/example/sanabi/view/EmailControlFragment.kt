@@ -10,6 +10,7 @@ import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import com.example.sanabi.R
+import com.example.sanabi.Util.util
 import com.example.sanabi.databinding.FragmentEmailControlBinding
 import com.example.sanabi.viewModel.EmailControlViewModel
 
@@ -46,6 +47,9 @@ class EmailControlFragment : Fragment() {
             }else{
                 Toast.makeText(requireContext(), "Lütfen e posta adresinizi giriniz", Toast.LENGTH_SHORT).show()
             }
+        }
+        binding.backPage.setOnClickListener {
+            requireActivity().onBackPressed()
         }
     }
     fun observerItem(){

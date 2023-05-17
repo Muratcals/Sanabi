@@ -69,11 +69,6 @@ class Repository {
     fun deleteCustomer(id:Int):Call<Data>{
         return APIServices().RetrofitServices().deleteCustomer(id)
     }
-
-    fun getPaymentType(id:Int):Call<GetPaymentType>{
-        return APIServices().RetrofitServices().getPaymentType(id)
-    }
-
     fun getCategory(categoryId: Int):Call<SearchGetCategoryModel>{
         return APIServices().RetrofitServices().getCategory(categoryId)
     }

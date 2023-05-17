@@ -4,6 +4,7 @@ import android.content.Intent
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat.startActivity
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -67,13 +68,16 @@ class RegisterViewModel : ViewModel() {
             result.enqueue(object:Callback<Data>{
                 override fun onResponse(call: Call<Data>, response: Response<Data>) {
                     util.auth.createUserWithEmailAndPassword(userInformation.mail,password).addOnSuccessListener {
+                        Toast.makeText(activity.applicationContext, "Kayıt başarılı. Giriş yapabilirsiniz.", Toast.LENGTH_SHORT).show()
+                        activity.finish()
                         //saveDatabase(activity,userInformation.mail)
+                    }.addOnFailureListener {
+                        Toast.makeText(activity.applicationContext, it.localizedMessage, Toast.LENGTH_SHORT).show()
+                        saveControl.value=false
                     }
                 }
-
                 override fun onFailure(call: Call<Data>, t: Throwable) {
                     Toast.makeText(activity, t.localizedMessage, Toast.LENGTH_SHORT).show()
-                    println(t.localizedMessage)
                     saveControl.value=false
                 }
 

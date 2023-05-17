@@ -24,6 +24,7 @@ import com.example.sanabi.databinding.SelectedAdressViewBinding
 import com.example.sanabi.model.AddressData
 import com.example.sanabi.model.GetIdModel
 import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -65,8 +66,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
         binding.adressSave.setOnClickListener {
-            binding.adressSave.isClickable = false
-            binding.adressSave.isEnabled = false
+            buttonClickable(false)
             if (marker != null) {
                 getAddress(marker!!.position)
             } else {
@@ -89,6 +89,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     fun getLocation() {
+        buttonClickable(false)
         binding.mapsProgress.visibility = View.VISIBLE
         if (ActivityCompat.checkSelfPermission(
                 this,
@@ -105,13 +106,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                 ), 1
             )
         } else {
-            binding.mapsProgress.visibility = View.GONE
-            binding.adressSave.isClickable = false
-            binding.adressSave.isEnabled = false
             locationListener = object : LocationListener {
                 override fun onLocationChanged(p0: Location) {
-                    val latLng = LatLng(p0.latitude, p0.longitude)
-                    markerOnMap(latLng)
                 }
 
                 override fun onStatusChanged(provider: String, status: Int, extras: Bundle) {
@@ -119,7 +115,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                 }
 
                 override fun onProviderEnabled(provider: String) {
-                    println("konum açık")
+
                 }
 
                 override fun onProviderDisabled(provider: String) {
@@ -131,7 +127,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                                 Toast.LENGTH_SHORT
                             ).show()
                         }
-
                         override fun onFinish() {
                             this@MapsActivity.finish()
                             locationManager.removeUpdates(locationListener)
@@ -147,21 +142,25 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             )
             fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
             fusedLocationClient.lastLocation.addOnCompleteListener {
-                if (it.isSuccessful) {
-                    if (it.result != null) {
-                        lastLocation = it.result
-                        val latLng = LatLng(it.result.latitude, it.result.longitude)
-                        markerOnMap(latLng)
-                    }
+                if (it.result != null) {
+                    binding.mapsProgress.visibility = View.GONE
+                    lastLocation = it.result
+                    val latLng = LatLng(it.result.latitude, it.result.longitude)
+                    markerOnMap(latLng)
                 }
+            }.addOnFailureListener {
+                Toast.makeText(applicationContext, it.localizedMessage, Toast.LENGTH_SHORT).show()
             }
         }
     }
 
+    fun buttonClickable(state:Boolean){
+        binding.adressSave.isEnabled=state
+        binding.adressSave.isClickable=state
+    }
+
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
-        binding.adressSave.isClickable = true
-        binding.adressSave.isEnabled = true
         mMap.uiSettings.isZoomControlsEnabled = true
         mMap.setOnMarkerDragListener(object : GoogleMap.OnMarkerDragListener {
             override fun onMarkerDrag(p0: Marker) {
@@ -185,8 +184,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         bottomSheetDialog.setCancelable(false)
         bottomSheetDialog.dismissWithAnimation = true
         bottomSheetDialog.show()
-        binding.adressSave.isClickable = true
-        binding.adressSave.isEnabled = true
         dialogViewBinding.lastText.setText("${adress.subLocality} ${adress.thoroughfare} ${adress.subThoroughfare}")
         dialogViewBinding.secText.setText("${adress.subAdminArea} ${adress.locality ?: "İstanbul"} ${adress.postalCode}")
         dialogViewBinding.postCode.setText(adress.postalCode)
@@ -196,6 +193,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         dialogViewBinding.streetText.setText(adress.thoroughfare)
         dialogViewBinding.selectedAddressCancel.setOnClickListener {
             bottomSheetDialog.setCancelable(true)
+            buttonClickable(true)
             bottomSheetDialog.cancel()
         }
         dialogViewBinding.save.setOnClickListener {
@@ -304,6 +302,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     private fun markerOnMap(currentLatLong: LatLng) {
+        buttonClickable(true)
         mMap.clear()
         val markerOptions = MarkerOptions().position(currentLatLong).draggable(true)
         markerOptions.title("$currentLatLong")

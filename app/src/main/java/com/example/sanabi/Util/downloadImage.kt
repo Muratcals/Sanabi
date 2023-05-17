@@ -22,10 +22,6 @@ fun ImageView.deneme(url:String){
 fun CircleImageView.downloadImage(url:String){
     Picasso.get().load("${util.imageBaseUrl}/${url}").into(this)
 }
-fun Int.dp():Int{
-    return (this * Resources.getSystem().displayMetrics.density + 0.5f).toInt()
-}
-
 
 fun EditText.dateFormat(cal: Calendar){
     val format = SimpleDateFormat("dd.MM.yyyy")
@@ -37,7 +33,7 @@ fun TextView.decimalFormet(double: Double) {
     val otherSymbol = DecimalFormatSymbols()
     otherSymbol.decimalSeparator = ','
     otherSymbol.groupingSeparator = '.'
-    val df = DecimalFormat("##.##")
+    val df = DecimalFormat("0.00")
     df.decimalFormatSymbols = otherSymbol
     df.roundingMode = RoundingMode.DOWN
     this.setText("${df.format(double)} TL")

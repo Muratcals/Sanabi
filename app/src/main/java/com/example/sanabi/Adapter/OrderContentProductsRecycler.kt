@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.sanabi.R
 import com.example.sanabi.Room.DatabaseRoom
+import com.example.sanabi.Util.decimalFormet
 import com.example.sanabi.Util.downloadImage
 import com.example.sanabi.model.BasketProductModelData
 import com.example.sanabi.viewModel.NewOrderCreateViewModel
@@ -43,7 +44,7 @@ class OrderContentProductsRecycler(
         holder.productCount.setText(orderList[position].amount.toString())
         holder.productName.setText(orderList[position].name)
         val total = (orderList[position].price * orderList[position].amount)
-        holder.productPrice.setText(newOrderCreateViewModel.decimalFormet(total))
+        holder.productPrice.decimalFormet(total)
         holder.deleteOrder.setOnClickListener {
             if (orderList[position].amount > 1) {
                 newOrderCreateViewModel.updateOrder(orderList[position].copy(amount = orderList[position].amount - 1))
