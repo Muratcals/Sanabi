@@ -25,7 +25,7 @@
             android:layout_marginStart="@dimen/_10sdp"
             android:layout_marginTop="@dimen/_17sdp"
             android:fontFamily="@font/arial"
-            android:text="Merhaba hasan"
+            android:text="Merhaba"
             android:textColor="@color/black"
             android:textSize="@dimen/_12ssp"
             app:layout_constraintEnd_toStartOf="@+id/constraintLayout"

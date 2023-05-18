@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.updatePadding
 import com.example.sanabi.API.Repository
 import com.example.sanabi.R
@@ -236,5 +237,10 @@ class SelectedAdressViewFragment : Fragment() {
             println(e.localizedMessage)
         }
         return null
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        (requireActivity() as AppCompatActivity).supportActionBar?.show()
     }
 }

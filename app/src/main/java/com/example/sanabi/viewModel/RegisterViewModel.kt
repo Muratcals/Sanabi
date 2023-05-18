@@ -31,7 +31,7 @@ class RegisterViewModel : ViewModel() {
         val number ="1234567890"
         val control =number.filter {
             if(password.contains(it)){
-                numberControl.value=true
+                return@filter true
             }
             return@filter true
         }

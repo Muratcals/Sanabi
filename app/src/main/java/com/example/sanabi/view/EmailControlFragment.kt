@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
@@ -28,6 +29,7 @@ class EmailControlFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(this).get(EmailControlViewModel::class.java)
+        requireActivity().window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
         binding.eMail.addTextChangedListener {
             if (it?.isNotEmpty()==true) binding.nextButton.setBackgroundResource(R.drawable.next_button_shape) else binding.nextButton.setBackgroundResource(R.drawable.error_button_shape)
         }

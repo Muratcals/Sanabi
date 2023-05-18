@@ -3,14 +3,17 @@ package com.example.sanabi.viewModel
 import android.app.Activity
 import android.content.Context
 import android.content.DialogInterface
+import android.content.Intent
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat.startActivity
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.room.Database
 import com.example.sanabi.API.Repository
 import com.example.sanabi.Room.DatabaseRoom
+import com.example.sanabi.SplashActivity
 import com.example.sanabi.Util.util
 import com.example.sanabi.Util.util.gso
 import com.example.sanabi.model.*
@@ -81,7 +84,6 @@ class AccountViewModel : ViewModel() {
         if (util.auth.currentUser != null) {
             util.auth.currentUser!!.delete().addOnCompleteListener {
                 if (it.isSuccessful) {
-                    util.customerId = 0
                     val googleSingIn = GoogleSignIn.getClient(activity, gso)
                     googleSingIn.signOut()
                     util.auth.signOut()
@@ -137,15 +139,22 @@ class AccountViewModel : ViewModel() {
                 editorPayment.apply {
                     this.putInt("paymentMethod", 0)
                 }
+                util.customerId = 0
                 viewModelScope.launch(Dispatchers.IO) {
                     val database = DatabaseRoom.getDatabase(activity.applicationContext)
                     val searchDatabase=DatabaseRoom.getSearchDatabase(activity.applicationContext)
                     searchDatabase.searchRoomDb().deletePastSearch()
                     database.roomDb().deleteAllBasket()
-                    progress.value = false
+                    progress.postValue(false)
                 }
                 Toast.makeText(activity, "Kullanıcı başarıyla silinmiştir", Toast.LENGTH_SHORT)
                     .show()
+                activity.runOnUiThread {
+                    val intent =Intent(activity.applicationContext,SplashActivity::class.java)
+                    intent.putExtra("incoming","delete")
+                    startActivity(activity.applicationContext,intent,null)
+                    activity.finish()
+                }
             }
 
             override fun onFailure(call: Call<Data>, t: Throwable) {

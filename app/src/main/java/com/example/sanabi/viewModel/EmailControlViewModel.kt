@@ -35,7 +35,7 @@ class EmailControlViewModel : ViewModel() {
                 override fun onResponse(call: Call<GetIdModel>, response: Response<GetIdModel>) {
                     if (response.body()!!.data!=0) {
                         util.auth.fetchSignInMethodsForEmail(eMail).addOnSuccessListener {
-                            if (it.signInMethods!=null){
+                            if (it.signInMethods?.size!=0){
                                 if (!it.signInMethods!![0].toString().equals("password")){
                                     Toast.makeText(activity.applicationContext, "Bu mail google ile girişte kullanılmış. Google ile giriş yapmayı deneyiniz.", Toast.LENGTH_SHORT).show()
                                 }else{
@@ -43,9 +43,13 @@ class EmailControlViewModel : ViewModel() {
                                         R.id.action_emailControlFragment_to_successMailFragment,bundle
                                     )
                                 }
+                            }else{
+                                activity.findNavController(R.id.fragmentContainerView).navigate(
+                                    R.id.action_emailControlFragment_to_registerFragment,
+                                    bundle
+                                )
                             }
                         }
-
                     } else {
                         activity.findNavController(R.id.fragmentContainerView).navigate(
                             R.id.action_emailControlFragment_to_registerFragment,
