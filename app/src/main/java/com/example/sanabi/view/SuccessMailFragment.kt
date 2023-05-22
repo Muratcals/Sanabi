@@ -62,13 +62,10 @@ class SuccessMailFragment : Fragment() {
                         startActivity(intent)
                         requireActivity().finish()
                     }
-
                     override fun onFailure(call: retrofit2.Call<GetIdModel>, t: Throwable) {
                         Toast.makeText(requireContext(), t.localizedMessage, Toast.LENGTH_SHORT).show()
                     }
-
                 })
-
             }else{
                 Toast.makeText(requireContext(), it.exception?.localizedMessage, Toast.LENGTH_SHORT).show()
                 binding.progress.visibility=View.GONE

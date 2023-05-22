@@ -152,7 +152,7 @@ class AccountViewModel : ViewModel() {
                 activity.runOnUiThread {
                     val intent =Intent(activity.applicationContext,SplashActivity::class.java)
                     intent.putExtra("incoming","delete")
-                    startActivity(activity.applicationContext,intent,null)
+                    startActivity(activity,intent,null)
                     activity.finish()
                 }
             }

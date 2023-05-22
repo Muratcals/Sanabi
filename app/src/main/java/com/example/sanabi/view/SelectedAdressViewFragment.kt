@@ -87,7 +87,7 @@ class SelectedAdressViewFragment : Fragment() {
             if (binding.postCode.text!!.isNotEmpty() && binding.apartmentNumberText.text!!.isNotEmpty()
                 && binding.districteText.text!!.isNotEmpty() && binding.buildingNoText.text!!.isNotEmpty()
                 && binding.neighbourhoodText.text!!.isNotEmpty() && binding.streetText.text!!.isNotEmpty()
-                && binding.addresDetails.text!!.isNotEmpty() && binding.phoneNumberText.text!!.isNotEmpty()
+                && binding.phoneNumberText.text!!.isNotEmpty()
             ) {
                 val apartmentNumber =
                     Integer.parseInt(binding.apartmentNumberText.text.toString())
@@ -107,13 +107,13 @@ class SelectedAdressViewFragment : Fragment() {
                         binding.addresDetails.text.toString(),
                         binding.phoneNumberText.text.toString()
                     )
+                println(binding.addresDetails.text.toString())
                 val result = repository.updateAddress(address)
                 result.enqueue(object : Callback<AddressData> {
                     override fun onResponse(
                         call: Call<AddressData>,
                         response: Response<AddressData>
                     ) {
-                        println(util.customerId)
                         Toast.makeText(requireContext(), "Güncellendi", Toast.LENGTH_SHORT).show()
                         requireActivity().onBackPressed()
                     }
